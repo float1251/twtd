@@ -9,7 +9,11 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.kotcrab.vis.ui.VisUI;
 
 import jp.float1251.twtd.TWTD;
 
@@ -19,20 +23,34 @@ import jp.float1251.twtd.TWTD;
 public class MainGameScreen implements Screen {
     private final TWTD game;
     private final FitViewport viewport;
+    private final Stage stage;
     private OrthogonalTiledMapRenderer renderer;
 
     public MainGameScreen(TWTD game) {
         this.game = game;
         OrthographicCamera camera = new OrthographicCamera();
         viewport = new FitViewport(960, 640, camera);
-        camera.setToOrtho(true, 960, 640);
+        camera.setToOrtho(false, 960, 640);
+        TiledMap loader = new TmxMapLoader().load("stage/stage1.tmx");
+        renderer = new OrthogonalTiledMapRenderer(loader);
+        renderer.setView((OrthographicCamera) viewport.getCamera());
+
+        stage = new Stage(viewport);
+
+        VisUI.load();
+        Table table = new Table();
+        TextButton button = new TextButton("ABC", VisUI.getSkin());
+        button.getStyle().font.getData().setScale(3f);
+        table.setPosition(300, 100);
+        table.add(button).size(200, 80).pad(2f);
+        button = new TextButton("DEC", VisUI.getSkin());
+        table.add(button).size(200, 80).pad(2f);
+        stage.addActor(table);
+
     }
 
     @Override
     public void show() {
-        TiledMap loader = new TmxMapLoader().load("stage/stage1.tmx");
-        renderer = new OrthogonalTiledMapRenderer(loader);
-        renderer.setView((OrthographicCamera) viewport.getCamera());
 
         Gdx.input.setInputProcessor(new GestureDetector(new GestureDetector.GestureListener() {
             @Override
@@ -84,6 +102,9 @@ public class MainGameScreen implements Screen {
         Gdx.gl20.glClearColor(0, 0, 1, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.render();
+
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override
