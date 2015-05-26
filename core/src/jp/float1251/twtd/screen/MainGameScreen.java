@@ -1,19 +1,20 @@
 package jp.float1251.twtd.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.kotcrab.vis.ui.VisUI;
 
@@ -41,57 +42,32 @@ public class MainGameScreen implements Screen {
         stage = new Stage(viewport);
 
         VisUI.load();
-        Table table = new Table();
+        final Table table = new Table();
         TextButton button = new TextButton("ABC", VisUI.getSkin());
         button.getStyle().font.getData().setScale(3f);
+        button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                GameLog.d("clicked");
+                table.addAction(Actions.moveTo(300, -100, 0.2f));
+            }
+        });
         table.setPosition(300, 100);
         table.add(button).size(200, 80).pad(2f);
         button = new TextButton("DEC", VisUI.getSkin());
         table.add(button).size(200, 80).pad(2f);
         stage.addActor(table);
-        Gdx.input.setInputProcessor(new InputMultiplexer(stage, new InputProcessor() {
+        stage.addListener(new InputListener() {
             @Override
-            public boolean keyDown(int keycode) {
-                return false;
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                GameLog.d("stage touchdown");
+                Vector3 pos = viewport.getCamera().unproject(new Vector3(x, y, 0));
+                // TODO pos‚©‚çƒZƒ‹‚ÌˆÊ’u‚ðŒvŽZ‚·‚é
+                table.addAction(Actions.moveTo(300, 100, 0.2f));
+                return super.touchDown(event, x, y, pointer, button);
             }
-
-            @Override
-            public boolean keyUp(int keycode) {
-                return false;
-            }
-
-            @Override
-            public boolean keyTyped(char character) {
-                return false;
-            }
-
-            @Override
-            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                GameLog.d("touchDown");
-                game.setScreen(new MenuScreen(game));
-                return false;
-            }
-
-            @Override
-            public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-                return false;
-            }
-
-            @Override
-            public boolean touchDragged(int screenX, int screenY, int pointer) {
-                return false;
-            }
-
-            @Override
-            public boolean mouseMoved(int screenX, int screenY) {
-                return false;
-            }
-
-            @Override
-            public boolean scrolled(int amount) {
-                return false;
-            }
-        }));
+        });
+        Gdx.input.setInputProcessor(stage);
 
     }
 
