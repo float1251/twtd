@@ -7,15 +7,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import jp.float1251.twtd.screen.TitleScreen;
 
 public class TWTD extends Game {
-	SpriteBatch batch;
-	Texture img;
-	
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
 
-		setScreen(new TitleScreen(this));
-	}
+    @Override
+    public void create() {
+
+        setScreen(new TitleScreen(this));
+    }
 
 }

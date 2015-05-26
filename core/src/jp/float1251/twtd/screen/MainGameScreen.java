@@ -1,6 +1,8 @@
 package jp.float1251.twtd.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -15,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.kotcrab.vis.ui.VisUI;
 
+import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.TWTD;
 
 /**
@@ -26,7 +29,7 @@ public class MainGameScreen implements Screen {
     private final Stage stage;
     private OrthogonalTiledMapRenderer renderer;
 
-    public MainGameScreen(TWTD game) {
+    public MainGameScreen(final TWTD game) {
         this.game = game;
         OrthographicCamera camera = new OrthographicCamera();
         viewport = new FitViewport(960, 640, camera);
@@ -46,54 +49,55 @@ public class MainGameScreen implements Screen {
         button = new TextButton("DEC", VisUI.getSkin());
         table.add(button).size(200, 80).pad(2f);
         stage.addActor(table);
+        Gdx.input.setInputProcessor(new InputMultiplexer(stage, new InputProcessor() {
+            @Override
+            public boolean keyDown(int keycode) {
+                return false;
+            }
+
+            @Override
+            public boolean keyUp(int keycode) {
+                return false;
+            }
+
+            @Override
+            public boolean keyTyped(char character) {
+                return false;
+            }
+
+            @Override
+            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                GameLog.d("touchDown");
+                game.setScreen(new MenuScreen(game));
+                return false;
+            }
+
+            @Override
+            public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+                return false;
+            }
+
+            @Override
+            public boolean touchDragged(int screenX, int screenY, int pointer) {
+                return false;
+            }
+
+            @Override
+            public boolean mouseMoved(int screenX, int screenY) {
+                return false;
+            }
+
+            @Override
+            public boolean scrolled(int amount) {
+                return false;
+            }
+        }));
 
     }
 
     @Override
     public void show() {
 
-        Gdx.input.setInputProcessor(new GestureDetector(new GestureDetector.GestureListener() {
-            @Override
-            public boolean touchDown(float x, float y, int pointer, int button) {
-                return false;
-            }
-
-            @Override
-            public boolean tap(float x, float y, int count, int button) {
-                game.setScreen(new MenuScreen(game));
-                return false;
-            }
-
-            @Override
-            public boolean longPress(float x, float y) {
-                return false;
-            }
-
-            @Override
-            public boolean fling(float velocityX, float velocityY, int button) {
-                return false;
-            }
-
-            @Override
-            public boolean pan(float x, float y, float deltaX, float deltaY) {
-                return false;
-            }
-
-            @Override
-            public boolean panStop(float x, float y, int pointer, int button) {
-                return false;
-            }
-
-            @Override
-            public boolean zoom(float initialDistance, float distance) {
-                return false;
-            }
-
-            @Override
-            public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
-                return false;
-            }
-        }));
     }
 
     @Override
