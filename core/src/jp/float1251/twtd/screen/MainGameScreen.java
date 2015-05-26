@@ -1,25 +1,29 @@
 package jp.float1251.twtd.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.kotcrab.vis.ui.VisUI;
+import com.kotcrab.vis.ui.widget.VisTable;
+import com.kotcrab.vis.ui.widget.VisTextButton;
 
 import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.TWTD;
+import jp.float1251.twtd.game.SelectedCell;
 
 /**
  * Created by takahiro iwatani on 2015/05/24.
@@ -28,10 +32,13 @@ public class MainGameScreen implements Screen {
     private final TWTD game;
     private final FitViewport viewport;
     private final Stage stage;
+    private final SpriteBatch batch;
+    private final SelectedCell selectedCell;
     private OrthogonalTiledMapRenderer renderer;
 
     public MainGameScreen(final TWTD game) {
         this.game = game;
+        this.batch = new SpriteBatch();
         OrthographicCamera camera = new OrthographicCamera();
         viewport = new FitViewport(960, 640, camera);
         camera.setToOrtho(false, 960, 640);
@@ -39,35 +46,72 @@ public class MainGameScreen implements Screen {
         renderer = new OrthogonalTiledMapRenderer(loader);
         renderer.setView((OrthographicCamera) viewport.getCamera());
 
+        selectedCell = new SelectedCell(viewport);
+
         stage = new Stage(viewport);
 
         VisUI.load();
-        final Table table = new Table();
-        TextButton button = new TextButton("ABC", VisUI.getSkin());
+        final VisTable table = new VisTable();
+        TextButton button = new VisTextButton("ABC");
         button.getStyle().font.getData().setScale(3f);
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 GameLog.d("clicked");
+                selectedCell.setSelected(false);
                 table.addAction(Actions.moveTo(300, -100, 0.2f));
             }
         });
-        table.setPosition(300, 100);
+        table.setPosition(300, -100);
         table.add(button).size(200, 80).pad(2f);
-        button = new TextButton("DEC", VisUI.getSkin());
+        button = new VisTextButton("DEC");
         table.add(button).size(200, 80).pad(2f);
         stage.addActor(table);
-        stage.addListener(new InputListener() {
+        Gdx.input.setInputProcessor(new InputMultiplexer(stage, new InputProcessor() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                GameLog.d("stage touchdown");
-                Vector3 pos = viewport.getCamera().unproject(new Vector3(x, y, 0));
-                // TODO pos‚©‚çƒZƒ‹‚ÌˆÊ’u‚ðŒvŽZ‚·‚é
-                table.addAction(Actions.moveTo(300, 100, 0.2f));
-                return super.touchDown(event, x, y, pointer, button);
+            public boolean keyDown(int keycode) {
+                return false;
             }
-        });
-        Gdx.input.setInputProcessor(stage);
+
+            @Override
+            public boolean keyUp(int keycode) {
+                return false;
+            }
+
+            @Override
+            public boolean keyTyped(char character) {
+                return false;
+            }
+
+            @Override
+            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                GameLog.d("stage touchdown");
+                Vector3 pos = viewport.unproject(new Vector3(screenX, screenY, 0));
+                selectedCell.setSelectedPosition(pos);
+                table.addAction(Actions.moveTo(300, 100, 0.2f));
+                return false;
+            }
+
+            @Override
+            public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+                return false;
+            }
+
+            @Override
+            public boolean touchDragged(int screenX, int screenY, int pointer) {
+                return false;
+            }
+
+            @Override
+            public boolean mouseMoved(int screenX, int screenY) {
+                return false;
+            }
+
+            @Override
+            public boolean scrolled(int amount) {
+                return false;
+            }
+        }));
 
     }
 
@@ -85,6 +129,13 @@ public class MainGameScreen implements Screen {
 
         stage.act(delta);
         stage.draw();
+
+        batch.setProjectionMatrix(viewport.getCamera().combined);
+        batch.begin();
+        if (selectedCell.isSelected()) {
+            selectedCell.draw(batch);
+        }
+        batch.end();
     }
 
     @Override
