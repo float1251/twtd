@@ -1,13 +1,17 @@
 package jp.float1251.twtd.screen;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import jp.float1251.twtd.StageData;
 import jp.float1251.twtd.TWTD;
+import jp.float1251.twtd.ecs.system.EnemyCreateSystem;
+import jp.float1251.twtd.ecs.system.RenderingSystem;
 import jp.float1251.twtd.ui.MainGameUi;
 
 /**
@@ -18,6 +22,8 @@ public class MainGameScreen implements Screen {
     private final FitViewport viewport;
     private final StageData stageData;
     private final MainGameUi ui;
+    private final Engine engine;
+    private final SpriteBatch batch;
 
     public MainGameScreen(final TWTD game) {
         this.game = game;
@@ -28,6 +34,12 @@ public class MainGameScreen implements Screen {
         stageData.setView((OrthographicCamera) viewport.getCamera());
 
         ui = new MainGameUi(viewport, stageData);
+
+        this.engine = new Engine();
+        batch = new SpriteBatch();
+        engine.addSystem(new RenderingSystem(batch));
+        engine.addSystem(new EnemyCreateSystem(stageData.getRespawnPosition()));
+
     }
 
     @Override
@@ -42,6 +54,8 @@ public class MainGameScreen implements Screen {
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stageData.render();
 
+        batch.setProjectionMatrix(viewport.getCamera().combined);
+        engine.update(delta);
         ui.act(delta);
         ui.draw();
     }

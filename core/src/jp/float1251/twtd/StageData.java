@@ -3,10 +3,12 @@ package jp.float1251.twtd;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import jp.float1251.twtd.util.GameUtils;
@@ -17,12 +19,15 @@ import jp.float1251.twtd.util.GameUtils;
 public class StageData {
 
     private final MapLayer wallData;
+    private final Vector2 respawnPosition;
     private OrthogonalTiledMapRenderer renderer;
 
     public StageData(String fileName) {
         TiledMap loader = new TmxMapLoader().load(fileName);
         renderer = new OrthogonalTiledMapRenderer(loader);
         wallData = loader.getLayers().get("wall");
+        MapProperties val = loader.getLayers().get("start_goal").getObjects().get("enemy").getProperties();
+        respawnPosition = new Vector2(val.get("x", Float.class), val.get("y", Float.class));
     }
 
     /**
@@ -50,4 +55,10 @@ public class StageData {
         }
         return false;
     }
+
+    public Vector2 getRespawnPosition() {
+        return respawnPosition;
+    }
+
+
 }
