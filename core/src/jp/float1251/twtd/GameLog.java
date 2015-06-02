@@ -12,4 +12,6 @@ public class GameLog {
     public static void d(String message){
         Gdx.app.log(TAG, message);
     }
+
+
 }

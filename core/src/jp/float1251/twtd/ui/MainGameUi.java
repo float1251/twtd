@@ -69,8 +69,9 @@ public class MainGameUi {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                GameLog.d("stage touchdown");
+                GameLog.d(String.format("Screen: %d, %d", screenX, screenY));
                 Vector3 pos = viewport.unproject(new Vector3(screenX, screenY, 0));
+                GameLog.d(String.format("World: %f, %f", pos.x, pos.y));
                 if (stageData.enablePutUnit(pos)) {
                     GameLog.d("enablePutUnit");
                     selectedCell.setSelectedPosition(pos);

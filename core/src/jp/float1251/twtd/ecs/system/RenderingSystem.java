@@ -36,7 +36,6 @@ public class RenderingSystem extends EntitySystem {
                     positionComponent.position.y - img.getHeight() / 2);
         }
         batch.end();
-
     }
 
     @Override

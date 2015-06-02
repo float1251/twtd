@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.ecs.component.PositionComponent;
+import jp.float1251.twtd.ecs.component.VelocityComponent;
 
 /**
  * Created by takahiro iwatani on 2015/06/01.
@@ -42,6 +43,7 @@ public class EnemyCreateSystem extends EntitySystem {
         GameLog.d("createEnemy");
         Entity enemy = new Entity();
         enemy.add(new PositionComponent(respawnPos));
+        enemy.add(new VelocityComponent());
         engine.addEntity(enemy);
     }
 }

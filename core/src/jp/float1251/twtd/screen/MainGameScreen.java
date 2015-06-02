@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import jp.float1251.twtd.StageData;
 import jp.float1251.twtd.TWTD;
 import jp.float1251.twtd.ecs.system.EnemyCreateSystem;
+import jp.float1251.twtd.ecs.system.MovementSystem;
 import jp.float1251.twtd.ecs.system.RenderingSystem;
 import jp.float1251.twtd.ui.MainGameUi;
 
@@ -39,6 +40,7 @@ public class MainGameScreen implements Screen {
         batch = new SpriteBatch();
         engine.addSystem(new RenderingSystem(batch));
         engine.addSystem(new EnemyCreateSystem(stageData.getRespawnPosition()));
+        engine.addSystem(new MovementSystem(stageData.path.getPolyline()));
 
     }
 

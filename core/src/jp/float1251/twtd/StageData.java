@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -20,6 +21,7 @@ public class StageData {
 
     private final MapLayer wallData;
     private final Vector2 respawnPosition;
+    public PolylineMapObject path;
     private OrthogonalTiledMapRenderer renderer;
 
     public StageData(String fileName) {
@@ -28,7 +30,9 @@ public class StageData {
         wallData = loader.getLayers().get("wall");
         MapProperties val = loader.getLayers().get("start_goal").getObjects().get("enemy").getProperties();
         respawnPosition = new Vector2(val.get("x", Float.class), val.get("y", Float.class));
+        path = loader.getLayers().get("path").getObjects().getByType(PolylineMapObject.class).get(0);
     }
+
 
     /**
      * set camera by renderer.
