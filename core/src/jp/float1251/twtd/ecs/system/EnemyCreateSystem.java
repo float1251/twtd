@@ -14,7 +14,9 @@ import jp.float1251.twtd.ecs.component.VelocityComponent;
  */
 public class EnemyCreateSystem extends EntitySystem {
 
+    // 出現地点
     private final Vector2 respawnPos;
+    // 時間
     private float total;
     private Engine engine;
 
@@ -32,6 +34,7 @@ public class EnemyCreateSystem extends EntitySystem {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
+        // 仮で2秒ごと程度で敵を出現させる
         total += deltaTime;
         if (total >= 2) {
             total = 0;

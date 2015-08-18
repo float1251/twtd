@@ -14,6 +14,7 @@ import jp.float1251.twtd.ecs.component.VelocityComponent;
  * Created by takahiro iwatani on 2015/06/02.
  */
 public class MovementSystem extends IteratingSystem {
+    // 移動path
     private final Polyline path;
     private Engine engine;
 
@@ -32,12 +33,14 @@ public class MovementSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         PositionComponent p = entity.getComponent(PositionComponent.class);
         VelocityComponent v = entity.getComponent(VelocityComponent.class);
+        // 目標点
         Vector2 s = new Vector2(path.getTransformedVertices()[v.verticesIndex],
                 path.getTransformedVertices()[v.verticesIndex + 1]);
         // 一定距離まで来たら、次のpositionを目指す
         if (s.dst(p.position) < 3) {
             p.position.set(s);
             v.verticesIndex += 2;
+            // pathのlength以上になったら最終目標点に到達したので、removeする。
             if (v.verticesIndex >= path.getTransformedVertices().length) {
                 engine.removeEntity(entity);
             }

@@ -24,7 +24,6 @@ public class RenderingSystem extends EntitySystem {
         img = new Texture("enemy.png");
     }
 
-
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
