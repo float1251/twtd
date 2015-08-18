@@ -11,8 +11,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import jp.float1251.twtd.StageData;
 import jp.float1251.twtd.TWTD;
 import jp.float1251.twtd.ecs.system.EnemyCreateSystem;
-import jp.float1251.twtd.ecs.system.MovementSystem;
+import jp.float1251.twtd.ecs.system.EnemyMovementSystem;
+import jp.float1251.twtd.ecs.system.MoveSystem;
 import jp.float1251.twtd.ecs.system.RenderingSystem;
+import jp.float1251.twtd.ecs.system.UnitSystem;
 import jp.float1251.twtd.ui.MainGameUi;
 
 /**
@@ -34,13 +36,14 @@ public class MainGameScreen implements Screen {
         stageData = new StageData("stage/stage1.tmx");
         stageData.setView((OrthographicCamera) viewport.getCamera());
 
-        ui = new MainGameUi(viewport, stageData);
-
         this.engine = new Engine();
+        ui = new MainGameUi(viewport, stageData, engine);
         batch = new SpriteBatch();
         engine.addSystem(new RenderingSystem(batch));
         engine.addSystem(new EnemyCreateSystem(stageData.getRespawnPosition()));
-        engine.addSystem(new MovementSystem(stageData.path.getPolyline()));
+        engine.addSystem(new EnemyMovementSystem(stageData.path.getPolyline()));
+        engine.addSystem(new UnitSystem());
+        engine.addSystem(new MoveSystem());
 
     }
 

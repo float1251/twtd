@@ -38,6 +38,9 @@ public class SelectedCell implements Disposable {
         return position;
     }
 
+    public Vector2 getWorldPosition(){
+        return position.cpy().scl(64);
+    }
 
     public void setSelected(boolean selected) {
         this.selected = selected;

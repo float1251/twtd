@@ -8,7 +8,10 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import javax.xml.soap.Text;
+
 import jp.float1251.twtd.ecs.component.PositionComponent;
+import jp.float1251.twtd.ecs.component.RenderingComponent;
 
 /**
  * Created by takahiro iwatani on 2015/06/01.
@@ -16,20 +19,21 @@ import jp.float1251.twtd.ecs.component.PositionComponent;
 public class RenderingSystem extends EntitySystem {
 
     private final SpriteBatch batch;
-    private final Texture img;
     private Engine engine;
 
     public RenderingSystem(SpriteBatch batch) {
         this.batch = batch;
-        img = new Texture("enemy.png");
     }
 
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
         batch.begin();
-        ImmutableArray<Entity> entities = engine.getEntitiesFor(Family.all(PositionComponent.class).get());
+        ImmutableArray<Entity> entities = engine.getEntitiesFor(Family.all(PositionComponent.class,
+                RenderingComponent.class).get());
+        Texture img;
         for (Entity entity : entities) {
+            img = entity.getComponent(RenderingComponent.class).texture;
             PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
             batch.draw(img, positionComponent.position.x - img.getWidth() / 2,
                     positionComponent.position.y - img.getHeight() / 2);

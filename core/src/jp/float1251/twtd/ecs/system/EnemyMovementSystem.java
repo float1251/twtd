@@ -13,13 +13,13 @@ import jp.float1251.twtd.ecs.component.VelocityComponent;
 /**
  * Created by takahiro iwatani on 2015/06/02.
  */
-public class MovementSystem extends IteratingSystem {
+public class EnemyMovementSystem extends IteratingSystem {
     // 移動path
     private final Polyline path;
     private Engine engine;
 
-    public MovementSystem(Polyline path) {
-        super(Family.all(PositionComponent.class, VelocityComponent.class).get());
+    public EnemyMovementSystem(Polyline path) {
+        super(Family.all(PositionComponent.class, VelocityComponent.class, EnemyComponent.class).get());
         this.path = path;
     }
 
@@ -45,6 +45,6 @@ public class MovementSystem extends IteratingSystem {
                 engine.removeEntity(entity);
             }
         }
-        p.position.add(s.sub(p.position).nor().scl(v.velocity));
+        p.position.add(s.sub(p.position).nor().scl(v.speed));
     }
 }

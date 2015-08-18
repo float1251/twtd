@@ -1,6 +1,8 @@
 package jp.float1251.twtd.ui;
 
 
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
@@ -18,6 +20,7 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 
 import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.StageData;
+import jp.float1251.twtd.ecs.UnitFactory;
 import jp.float1251.twtd.game.SelectedCell;
 
 /**
@@ -28,14 +31,17 @@ public class MainGameUi {
     private final Stage stage;
     private final Viewport viewport;
     private final SelectedCell selectedCell;
+    private final VisTable table;
+    private final Engine engine;
 
-    public MainGameUi(final Viewport viewport, final StageData stageData) {
+    public MainGameUi(final Viewport viewport, final StageData stageData, final Engine engine) {
         stage = new Stage(viewport);
+        this.engine = engine;
         this.viewport = viewport;
         selectedCell = new SelectedCell(viewport);
 
         VisUI.load();
-        final VisTable table = new VisTable();
+        table = new VisTable();
         TextButton button = new VisTextButton("ABC");
         button.getStyle().font.getData().setScale(3f);
         button.addListener(new ClickListener() {
@@ -49,6 +55,16 @@ public class MainGameUi {
         table.setPosition(300, -100);
         table.add(button).size(200, 80).pad(2f);
         button = new VisTextButton("DEC");
+        button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                selectedCell.setSelected(false);
+                // positionは画像の左下だからcellの真ん中に表示させるためにずらす
+                Entity unit = UnitFactory.createUnit(selectedCell.getWorldPosition().add(32, 32));
+                engine.addEntity(unit);
+                table.addAction(Actions.moveTo(300, -100, 0.2f));
+            }
+        });
         table.add(button).size(200, 80).pad(2f);
         stage.addActor(table);
         Gdx.input.setInputProcessor(new InputMultiplexer(stage, new InputProcessor() {
@@ -111,13 +127,17 @@ public class MainGameUi {
     }
 
     public void draw() {
-        stage.draw();
         SpriteBatch batch = (SpriteBatch) stage.getBatch();
         batch.setProjectionMatrix(viewport.getCamera().combined);
+        stage.draw();
         batch.begin();
         if (selectedCell.isSelected()) {
             selectedCell.draw(batch);
         }
+        // stage側でもdrawしてるので二重にrenderingしていることになるが、
+        // butonの上にselectedCellを描画してしまうのが仕方なく再度renderしている。
+        // UIを確定させて後ほど対応を決める
+        table.draw(batch, 1);
         batch.end();
     }
 
