@@ -12,11 +12,11 @@ import jp.float1251.twtd.ecs.component.UnitComponent;
 /**
  * Created by t-iwatani on 2015/08/18.
  */
-public class UnitSystem extends IteratingSystem{
+public class UnitSystem extends IteratingSystem {
 
     private Engine engine;
 
-    public UnitSystem(){
+    public UnitSystem() {
         super(Family.all(PositionComponent.class, UnitComponent.class).get());
     }
 
@@ -31,8 +31,10 @@ public class UnitSystem extends IteratingSystem{
         PositionComponent pos = entity.getComponent(PositionComponent.class);
         UnitComponent uc = entity.getComponent(UnitComponent.class);
         uc.addTime(deltaTime);
-        // TODO EngineからEnemyをすべて取ってきて、ターゲットを決める
-        // ターゲットは距離が一番近い敵にする
-        uc.shotIfNeeded(engine, pos.position, new Vector2(1, 1));
+        if (uc.shouldShoot()) {
+            // TODO EngineからEnemyをすべて取ってきて、ターゲットを決める
+            // ターゲットは距離が一番近い敵にする
+            uc.shotIfNeeded(engine, pos.position, new Vector2(1, 1));
+        }
     }
 }

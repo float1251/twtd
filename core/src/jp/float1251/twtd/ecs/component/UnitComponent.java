@@ -21,6 +21,11 @@ public class UnitComponent extends Component{
     public float interval = 2f;
 
     /**
+     * 攻撃の射程範囲
+     */
+    public float range = 5f;
+
+    /**
      *
      */
     public UnitType type = UnitType.RIFLE;
@@ -33,6 +38,10 @@ public class UnitComponent extends Component{
 
     public void addTime(float time){
         this.time += time;
+    }
+
+    public boolean shouldShoot(){
+        return time >= interval;
     }
 
     public void shotIfNeeded(Engine engine, Vector2 pos, Vector2 dir){

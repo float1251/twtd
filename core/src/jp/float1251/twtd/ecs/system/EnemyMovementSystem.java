@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import jp.float1251.twtd.ecs.component.PositionComponent;
 import jp.float1251.twtd.ecs.component.VelocityComponent;
+import jp.float1251.twtd.game.EnemyManager;
 
 /**
  * Created by takahiro iwatani on 2015/06/02.
@@ -42,7 +43,7 @@ public class EnemyMovementSystem extends IteratingSystem {
             v.verticesIndex += 2;
             // pathのlength以上になったら最終目標点に到達したので、removeする。
             if (v.verticesIndex >= path.getTransformedVertices().length) {
-                engine.removeEntity(entity);
+                EnemyManager.removeEnemy(engine, entity);
             }
         }
         p.position.add(s.sub(p.position).nor().scl(v.speed));

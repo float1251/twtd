@@ -10,6 +10,7 @@ import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.ecs.component.PositionComponent;
 import jp.float1251.twtd.ecs.component.RenderingComponent;
 import jp.float1251.twtd.ecs.component.VelocityComponent;
+import jp.float1251.twtd.game.EnemyManager;
 
 /**
  * Created by takahiro iwatani on 2015/06/01.
@@ -40,18 +41,10 @@ public class EnemyCreateSystem extends EntitySystem {
         total += deltaTime;
         if (total >= 2) {
             total = 0;
-            createEnemy(respawnPos);
+            Entity enemy = EnemyManager.createEnemy(respawnPos);
+            engine.addEntity(enemy);
         }
     }
 
-    public Texture img = new Texture("enemy.png");
-    public void createEnemy(Vector2 respawnPos) {
-        GameLog.d("createEnemy");
-        Entity enemy = new Entity();
-        enemy.add(new PositionComponent(respawnPos));
-        enemy.add(new VelocityComponent());
-        enemy.add(new EnemyComponent());
-        enemy.add(new RenderingComponent(img));
-        engine.addEntity(enemy);
-    }
+
 }
