@@ -4,11 +4,14 @@
 
 # TODO
 - [ ] Unitの画像
+- [ ] Enemyの画像
 - [ ] Enemyの体力
 - [ ] bulletの画像
 - [ ] Enemyの体力表示
 - [ ] 各種UIの画像
-- [ ] Unitから弾が出る
+- [x] Unitから弾が出る
+- [ ] 弾が一番近い敵に発射される
+- [ ] 弾の射程表示
 - [ ] 弾とEnemyの衝突判定
 - [ ] AssetManagerの実装
 - [ ] ObjectPoolの実装
