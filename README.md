@@ -16,5 +16,7 @@
 - [ ] 弾とEnemyの衝突判定
 - [X] AssetManagerの実装
 - [ ] ObjectPoolの実装
+- [ ] Unitのタイプ分け
+- [ ] bulletのタイプ分け
 
 [![Gyazo](https://i.gyazo.com/a232afd41b9b6ea056f77ec15edc9fc0.gif)](https://gyazo.com/a232afd41b9b6ea056f77ec15edc9fc0)
