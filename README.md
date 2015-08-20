@@ -17,4 +17,4 @@
 - [X] AssetManagerの実装
 - [ ] ObjectPoolの実装
 
-[![Gyazo](https://i.gyazo.com/3187c5c601ec2a1afe2e4c8f6aac3ea6.gif)](https://gyazo.com/3187c5c601ec2a1afe2e4c8f6aac3ea6)
+[![Gyazo](https://i.gyazo.com/a232afd41b9b6ea056f77ec15edc9fc0.gif)](https://gyazo.com/a232afd41b9b6ea056f77ec15edc9fc0)
