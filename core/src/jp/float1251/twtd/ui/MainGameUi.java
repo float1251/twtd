@@ -60,6 +60,7 @@ public class MainGameUi {
             public void clicked(InputEvent event, float x, float y) {
                 selectedCell.setSelected(false);
                 // positionは画像の左下だからcellの真ん中に表示させるためにずらす
+                // 画像のrenderingはimageのcenterをpivotとして行っている
                 Entity unit = UnitFactory.createUnit(selectedCell.getWorldPosition().add(32, 32));
                 engine.addEntity(unit);
                 table.addAction(Actions.moveTo(300, -100, 0.2f));

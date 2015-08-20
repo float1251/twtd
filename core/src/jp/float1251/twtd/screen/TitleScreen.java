@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.TWTD;
+import jp.float1251.twtd.asset.AssetLoader;
 
 /**
  * Created by takahiro iwatani on 2015/05/24.
@@ -22,6 +23,7 @@ public class TitleScreen implements Screen {
     public TitleScreen(final TWTD game) {
         this.game = game;
 
+        AssetLoader.getInstance().load();
         stage = new Stage(new FitViewport(960, 640));
 
         stage.addListener(new ClickListener() {
