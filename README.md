@@ -10,11 +10,11 @@
 - [ ] Enemyの体力表示
 - [ ] 各種UIの画像
 - [x] Unitから弾が出る
-- [X] 弾が一番近い敵に発射される
+- [x] 弾が一番近い敵に発射される
 - [ ] 弾の射程表示
-- [ ] 弾が一定距離に達したらremove
+- [x] 弾が一定距離に達したらremove
 - [ ] 弾とEnemyの衝突判定
-- [X] AssetManagerの実装
+- [x] AssetManagerの実装
 - [ ] ObjectPoolの実装
 - [ ] Unitのタイプ分け
 - [ ] bulletのタイプ分け

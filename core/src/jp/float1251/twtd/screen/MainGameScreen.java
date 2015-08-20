@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import jp.float1251.twtd.StageData;
 import jp.float1251.twtd.TWTD;
+import jp.float1251.twtd.ecs.system.BulletSystem;
 import jp.float1251.twtd.ecs.system.EnemyCreateSystem;
 import jp.float1251.twtd.ecs.system.EnemyMovementSystem;
 import jp.float1251.twtd.ecs.system.MoveSystem;
@@ -44,6 +45,7 @@ public class MainGameScreen implements Screen {
         engine.addSystem(new EnemyMovementSystem(stageData.path.getPolyline()));
         engine.addSystem(new UnitSystem());
         engine.addSystem(new MoveSystem());
+        engine.addSystem(new BulletSystem());
 
     }
 
