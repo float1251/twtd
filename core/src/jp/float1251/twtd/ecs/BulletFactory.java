@@ -23,10 +23,12 @@ public class BulletFactory {
         BulletComponent b = new BulletComponent();
         b.startPoint.set(pos);
         // TODO 仮
-        b.range = 50f;
+        b.range = 100f;
         bullet.add(b);
         bullet.add(new RenderingComponent(AssetLoader.getInstance().get("bullet.png", Texture.class)));
         VelocityComponent vel = new VelocityComponent();
+        // TODO 仮
+        vel.speed = 10f;
         vel.direction.set(dir);
         bullet.add(vel);
         return bullet;

@@ -37,8 +37,10 @@ public class UnitSystem extends IteratingSystem {
             // ターゲットは距離が一番近い敵にする
             Entity enemy = EnemyManager.getMinDistanceEnemy(pos.position);
             PositionComponent target = enemy.getComponent(PositionComponent.class);
-            Vector2 angle = target.position.cpy().sub(pos.position).nor();
-            uc.shotIfNeeded(engine, pos.position, angle);
+            if(target.position.dst(pos.position) <= uc.range) {
+                Vector2 angle = target.position.cpy().sub(pos.position).nor();
+                uc.shotIfNeeded(engine, pos.position, angle);
+            }
         }
     }
 }

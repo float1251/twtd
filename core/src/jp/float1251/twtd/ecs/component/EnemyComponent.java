@@ -1,4 +1,4 @@
-package jp.float1251.twtd.ecs.system;
+package jp.float1251.twtd.ecs.component;
 
 import com.badlogic.ashley.core.Component;
 

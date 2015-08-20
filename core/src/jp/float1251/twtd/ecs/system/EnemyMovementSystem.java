@@ -7,6 +7,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Vector2;
 
+import jp.float1251.twtd.ecs.component.EnemyComponent;
 import jp.float1251.twtd.ecs.component.PositionComponent;
 import jp.float1251.twtd.ecs.component.VelocityComponent;
 import jp.float1251.twtd.game.EnemyManager;
@@ -17,11 +18,13 @@ import jp.float1251.twtd.game.EnemyManager;
 public class EnemyMovementSystem extends IteratingSystem {
     // 移動path
     private final Polyline path;
+    private final IReachEndPoint callback;
     private Engine engine;
 
-    public EnemyMovementSystem(Polyline path) {
+    public EnemyMovementSystem(Polyline path, IReachEndPoint callback) {
         super(Family.all(PositionComponent.class, VelocityComponent.class, EnemyComponent.class).get());
         this.path = path;
+        this.callback = callback;
     }
 
     @Override
@@ -44,8 +47,15 @@ public class EnemyMovementSystem extends IteratingSystem {
             // pathのlength以上になったら最終目標点に到達したので、removeする。
             if (v.verticesIndex >= path.getTransformedVertices().length) {
                 EnemyManager.removeEnemy(engine, entity);
+                if (callback != null)
+                    callback.onReachEndPoint();
             }
         }
         p.position.add(s.sub(p.position).nor().scl(v.speed));
+    }
+
+
+    public interface IReachEndPoint {
+        void onReachEndPoint();
     }
 }

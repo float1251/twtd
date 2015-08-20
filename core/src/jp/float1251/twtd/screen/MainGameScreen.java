@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.StageData;
 import jp.float1251.twtd.TWTD;
 import jp.float1251.twtd.ecs.system.BulletSystem;
@@ -42,7 +43,12 @@ public class MainGameScreen implements Screen {
         batch = new SpriteBatch();
         engine.addSystem(new RenderingSystem(batch));
         engine.addSystem(new EnemyCreateSystem(stageData.getRespawnPosition()));
-        engine.addSystem(new EnemyMovementSystem(stageData.path.getPolyline()));
+        engine.addSystem(new EnemyMovementSystem(stageData.path.getPolyline(), new EnemyMovementSystem.IReachEndPoint() {
+            @Override
+            public void onReachEndPoint() {
+                GameLog.d("onReachEndPoint");
+            }
+        }));
         engine.addSystem(new UnitSystem());
         engine.addSystem(new MoveSystem());
         engine.addSystem(new BulletSystem());

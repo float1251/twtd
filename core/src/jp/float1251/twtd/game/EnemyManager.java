@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import jp.float1251.twtd.ecs.component.PositionComponent;
 import jp.float1251.twtd.ecs.component.RenderingComponent;
 import jp.float1251.twtd.ecs.component.VelocityComponent;
-import jp.float1251.twtd.ecs.system.EnemyComponent;
+import jp.float1251.twtd.ecs.component.EnemyComponent;
 
 /**
  * Created by t-iwatani on 2015/08/19.

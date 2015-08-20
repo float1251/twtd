@@ -18,12 +18,12 @@ public class UnitComponent extends Component{
     /**
      * 攻撃間隔
      */
-    public float interval = 2f;
+    public float interval = 1f;
 
     /**
      * 攻撃の射程範囲
      */
-    public float range = 5f;
+    public float range = 100f;
 
     /**
      *
