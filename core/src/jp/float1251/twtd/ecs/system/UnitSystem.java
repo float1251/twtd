@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import jp.float1251.twtd.ecs.component.PositionComponent;
 import jp.float1251.twtd.ecs.component.UnitComponent;
+import jp.float1251.twtd.game.EnemyManager;
 
 /**
  * Created by t-iwatani on 2015/08/18.
@@ -34,7 +35,10 @@ public class UnitSystem extends IteratingSystem {
         if (uc.shouldShoot()) {
             // TODO EngineからEnemyをすべて取ってきて、ターゲットを決める
             // ターゲットは距離が一番近い敵にする
-            uc.shotIfNeeded(engine, pos.position, new Vector2(1, 1));
+            Entity enemy = EnemyManager.getMinDistanceEnemy(pos.position);
+            PositionComponent target = enemy.getComponent(PositionComponent.class);
+            Vector2 angle = target.position.cpy().sub(pos.position).nor();
+            uc.shotIfNeeded(engine, pos.position, angle);
         }
     }
 }

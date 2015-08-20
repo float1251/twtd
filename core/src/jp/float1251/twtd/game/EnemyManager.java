@@ -35,7 +35,7 @@ public class EnemyManager {
         return enemy;
     }
 
-    public static void removeEnemy(Engine engine, Entity enemy){
+    public static void removeEnemy(Engine engine, Entity enemy) {
         enemyList.remove(enemy);
         engine.removeEntity(enemy);
     }
@@ -43,10 +43,23 @@ public class EnemyManager {
 
     /**
      * posから一番近くにいるEnemyを返す
+     *
      * @param pos
      * @return
      */
-    public static Entity getMinDistanceEnemy(Vector2 pos){
-        return null;
+    public static Entity getMinDistanceEnemy(Vector2 pos) {
+        float min = Float.MAX_VALUE;
+        if (enemyList.isEmpty()) {
+            return null;
+        }
+        Entity res = null;
+        for (Entity enemy : enemyList) {
+            float dst = enemy.getComponent(PositionComponent.class).position.dst(pos);
+            if (min > dst) {
+                min = dst;
+                res = enemy;
+            }
+        }
+        return res;
     }
 }
