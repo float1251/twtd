@@ -5,9 +5,9 @@
 # TODO
 - [x] Unitの画像
 - [x] Enemyの画像
-- [ ] Enemyの体力
+- [x] Enemyの体力
 - [x] bulletの画像
-- [ ] Enemyの体力表示
+- [x] Enemyの体力表示
 - [ ] 各種UIの画像
 - [x] Unitから弾が出る
 - [x] 弾が一番近い敵に発射される
