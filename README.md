@@ -14,9 +14,16 @@
 - [ ] 弾の射程表示
 - [x] 弾が一定距離に達したらremove
 - [ ] 弾とEnemyの衝突判定
+- [ ] 敵を倒したらコインが貰える
+- [ ] コイン表示
+- [ ] Unitの配置のコスト
+- [ ] Unitのアップデート
 - [x] AssetManagerの実装
 - [ ] ObjectPoolの実装
 - [ ] Unitのタイプ分け
 - [ ] bulletのタイプ分け
+- [ ] Playerのlife表示
+- [ ] 敵の出現をスクリプトで行う
+- [ ] 敵の出現のwave化
 
 [![Gyazo](https://i.gyazo.com/a232afd41b9b6ea056f77ec15edc9fc0.gif)](https://gyazo.com/a232afd41b9b6ea056f77ec15edc9fc0)
