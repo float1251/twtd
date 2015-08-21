@@ -13,6 +13,7 @@ import jp.float1251.twtd.StageData;
 import jp.float1251.twtd.TWTD;
 import jp.float1251.twtd.ecs.system.BulletSystem;
 import jp.float1251.twtd.ecs.system.EnemyCreateSystem;
+import jp.float1251.twtd.ecs.system.EnemyLifeRenderingSystem;
 import jp.float1251.twtd.ecs.system.EnemyMovementSystem;
 import jp.float1251.twtd.ecs.system.MoveSystem;
 import jp.float1251.twtd.ecs.system.RenderingSystem;
@@ -52,6 +53,7 @@ public class MainGameScreen implements Screen {
         engine.addSystem(new UnitSystem());
         engine.addSystem(new MoveSystem());
         engine.addSystem(new BulletSystem());
+        engine.addSystem(new EnemyLifeRenderingSystem(batch));
 
     }
 

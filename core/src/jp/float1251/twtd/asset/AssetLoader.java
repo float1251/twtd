@@ -1,7 +1,13 @@
 package jp.float1251.twtd.asset;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.utils.Disposable;
 
 /**
@@ -29,6 +35,18 @@ public class AssetLoader implements Disposable {
     public void load() {
         manager.load("cell/cell_unit.png", Texture.class);
         manager.load("bullet.png", Texture.class);
+
+        FileHandleResolver resolver = new InternalFileHandleResolver();
+        manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+        manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+
+
+        FreetypeFontLoader.FreeTypeFontLoaderParameter param = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        param.fontFileName = "font/PixelMplus12-Regular.ttf";
+        param.fontParameters.size = 30;
+        param.fontParameters.shadowOffsetX = 3;
+        param.fontParameters.shadowOffsetY = 3;
+        manager.load("size30.ttf", BitmapFont.class, param);
 
         // TODO blockされるからasyncにする
         manager.finishLoading();
