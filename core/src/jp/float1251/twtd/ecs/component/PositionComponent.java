@@ -12,4 +12,8 @@ public class PositionComponent extends Component {
     public PositionComponent(Vector2 respawnPos) {
         position = respawnPos.cpy();
     }
+
+    public PositionComponent(float x, float y){
+        position = new Vector2(x, y);
+    }
 }
