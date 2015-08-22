@@ -2,6 +2,8 @@ package jp.float1251.twtd.game;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
@@ -21,8 +23,6 @@ public class EnemyManager {
 
     public static Texture img = new Texture("enemy.png");
 
-    public static ArrayList<Entity> enemyList = new ArrayList<>();
-
     private EnemyManager() {
 
     }
@@ -34,15 +34,8 @@ public class EnemyManager {
         enemy.add(new EnemyComponent());
         enemy.add(new RenderingComponent(img));
         enemy.add(new CircleColliderComponent(30f));
-        enemyList.add(enemy);
         return enemy;
     }
-
-    public static void removeEnemy(Engine engine, Entity enemy) {
-        enemyList.remove(enemy);
-        engine.removeEntity(enemy);
-    }
-
 
     /**
      * posから一番近くにいるEnemyを返す
@@ -50,13 +43,11 @@ public class EnemyManager {
      * @param pos
      * @return
      */
-    public static Entity getMinDistanceEnemy(Vector2 pos) {
+    public static Entity getMinDistanceEnemy(Vector2 pos, Engine engine) {
+        ImmutableArray<Entity> list = engine.getEntitiesFor(Family.all(EnemyComponent.class).get());
         float min = Float.MAX_VALUE;
-        if (enemyList.isEmpty()) {
-            return null;
-        }
         Entity res = null;
-        for (Entity enemy : enemyList) {
+        for (Entity enemy : list) {
             float dst = enemy.getComponent(PositionComponent.class).position.dst(pos);
             if (min > dst) {
                 min = dst;

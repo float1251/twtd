@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import jp.float1251.twtd.data.PlayerData;
 import jp.float1251.twtd.util.GameUtils;
 
 /**

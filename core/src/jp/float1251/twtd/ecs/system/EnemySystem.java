@@ -7,11 +7,10 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Vector2;
 
-import jp.float1251.twtd.listener.GameNotify;
 import jp.float1251.twtd.ecs.component.EnemyComponent;
 import jp.float1251.twtd.ecs.component.PositionComponent;
 import jp.float1251.twtd.ecs.component.VelocityComponent;
-import jp.float1251.twtd.game.EnemyManager;
+import jp.float1251.twtd.listener.GameNotify;
 
 /**
  * 敵の移動と削除を行う.
@@ -40,7 +39,7 @@ public class EnemySystem extends IteratingSystem {
         EnemyComponent e = entity.getComponent(EnemyComponent.class);
         if (e.life <= 0) {
             notify.onDestroyEnemy(entity);
-            EnemyManager.removeEnemy(engine, entity);
+            engine.removeEntity(entity);
             return;
         }
 
@@ -55,7 +54,7 @@ public class EnemySystem extends IteratingSystem {
             v.verticesIndex += 2;
             // pathのlength以上になったら最終目標点に到達したので、removeする。
             if (v.verticesIndex >= path.getTransformedVertices().length) {
-                EnemyManager.removeEnemy(engine, entity);
+                engine.removeEntity(entity);
                 if (notify != null)
                     notify.onReachEnd(entity);
             }

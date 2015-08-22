@@ -15,11 +15,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kotcrab.vis.ui.VisUI;
+import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 
 import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.StageData;
+import jp.float1251.twtd.data.PlayerData;
 import jp.float1251.twtd.ecs.UnitFactory;
 import jp.float1251.twtd.game.SelectedCell;
 
@@ -33,14 +35,20 @@ public class MainGameUi {
     private final SelectedCell selectedCell;
     private final VisTable table;
     private final Engine engine;
+    private final PlayerData data;
+    private final VisLabel label;
 
-    public MainGameUi(final Viewport viewport, final StageData stageData, final Engine engine) {
+    public MainGameUi(final Viewport viewport, final StageData stageData, final Engine engine, PlayerData data) {
         stage = new Stage(viewport);
         this.engine = engine;
         this.viewport = viewport;
+        this.data = data;
         selectedCell = new SelectedCell(viewport);
 
         VisUI.load();
+        label = new VisLabel();
+        label.setPosition(0, viewport.getCamera().viewportHeight -30);
+        stage.addActor(label);
         table = new VisTable();
         TextButton button = new VisTextButton("ABC");
         button.getStyle().font.getData().setScale(3f);
@@ -128,6 +136,7 @@ public class MainGameUi {
     }
 
     public void draw() {
+        label.setText("Coin: "+(int)data.coin);
         SpriteBatch batch = (SpriteBatch) stage.getBatch();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         stage.draw();
@@ -136,7 +145,7 @@ public class MainGameUi {
             selectedCell.draw(batch);
         }
         // stage側でもdrawしてるので二重にrenderingしていることになるが、
-        // butonの上にselectedCellを描画してしまうのが仕方なく再度renderしている。
+        // buttonの上にselectedCellを描画してしまうのが仕方なく再度renderしている。
         // UIを確定させて後ほど対応を決める
         table.draw(batch, 1);
         batch.end();

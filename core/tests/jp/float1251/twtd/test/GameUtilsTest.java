@@ -33,7 +33,7 @@ public class GameUtilsTest {
         Circle c = GameUtils.createCircle(new Entity());
         assertNull(c);
         Entity e = new Entity();
-        e.add(new CircleColliderComponent(5, null));
+        e.add(new CircleColliderComponent(5));
         e.add(new PositionComponent(1, 2));
         c = GameUtils.createCircle(e);
         assertEquals(c.radius, 5f, 0);

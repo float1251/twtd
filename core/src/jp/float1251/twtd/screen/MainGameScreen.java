@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.StageData;
 import jp.float1251.twtd.TWTD;
+import jp.float1251.twtd.data.PlayerData;
 import jp.float1251.twtd.ecs.component.BulletComponent;
 import jp.float1251.twtd.ecs.component.CircleColliderComponent;
 import jp.float1251.twtd.ecs.component.EnemyComponent;
@@ -38,18 +39,21 @@ public class MainGameScreen implements Screen {
     private final MainGameUi ui;
     private final Engine engine;
     private final SpriteBatch batch;
+    private final PlayerData playerData;
 
     public MainGameScreen(final TWTD game) {
         this.game = game;
+        this.playerData = new PlayerData();
         OrthographicCamera camera = new OrthographicCamera();
         viewport = new FitViewport(960, 640, camera);
         camera.setToOrtho(false, 960, 640);
+        viewport.getCamera().update();
         stageData = new StageData("stage/stage1.tmx");
         stageData.setView((OrthographicCamera) viewport.getCamera());
 
         GameNotify notify = new GameNotify();
         this.engine = new Engine();
-        ui = new MainGameUi(viewport, stageData, engine);
+        ui = new MainGameUi(viewport, stageData, engine, playerData);
         batch = new SpriteBatch();
         engine.addSystem(new RenderingSystem(batch));
         engine.addSystem(new EnemyCreateSystem(stageData.getRespawnPosition()));
@@ -58,6 +62,7 @@ public class MainGameScreen implements Screen {
             @Override
             public void onDestroyEnemy(Entity e) {
                 GameLog.d("onDestroyEnemy");
+                playerData.coin += 10;
             }
 
             @Override
@@ -102,7 +107,6 @@ public class MainGameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        viewport.getCamera().update();
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stageData.render();
