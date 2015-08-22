@@ -5,7 +5,11 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 
+import jp.float1251.twtd.data.EnemySpawnData;
+import jp.float1251.twtd.data.WaveData;
 import jp.float1251.twtd.ecs.component.CircleColliderComponent;
 import jp.float1251.twtd.ecs.component.PositionComponent;
 
@@ -47,4 +51,23 @@ public class GameUtils {
 
         return new Circle(pos.position.x, pos.position.y, cc.radius);
     }
+
+    public static WaveData createWaveData(String json) {
+        WaveData wd = new WaveData();
+        JsonValue jsonValue = new JsonReader().parse(json);
+        int size = jsonValue.get("wave_data").size;
+        JsonValue wave = jsonValue.get("wave_data");
+        for (int i = 0; i < size; i++) {
+            JsonValue jd = wave.get(i);
+            EnemySpawnData data = new EnemySpawnData();
+            data.time = jd.getFloat("time", 0);
+            data.life = jd.getInt("life", 0);
+            data.speed = jd.getFloat("speed", 0);
+            data.deltaTime = jd.getFloat("delta_time", 0);
+            data.total = jd.getInt("total", 0);
+            wd.addEnemySpawnData(data);
+        }
+        return wd;
+    }
+
 }
