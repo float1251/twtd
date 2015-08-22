@@ -7,24 +7,26 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Vector2;
 
+import jp.float1251.twtd.listener.GameNotify;
 import jp.float1251.twtd.ecs.component.EnemyComponent;
 import jp.float1251.twtd.ecs.component.PositionComponent;
 import jp.float1251.twtd.ecs.component.VelocityComponent;
 import jp.float1251.twtd.game.EnemyManager;
 
 /**
+ * 敵の移動と削除を行う.
  * Created by takahiro iwatani on 2015/06/02.
  */
-public class EnemyMovementSystem extends IteratingSystem {
+public class EnemySystem extends IteratingSystem {
     // 移動path
     private final Polyline path;
-    private final IReachEndPoint callback;
+    private final GameNotify notify;
     private Engine engine;
 
-    public EnemyMovementSystem(Polyline path, IReachEndPoint callback) {
+    public EnemySystem(Polyline path, GameNotify notify) {
         super(Family.all(PositionComponent.class, VelocityComponent.class, EnemyComponent.class).get());
         this.path = path;
-        this.callback = callback;
+        this.notify = notify;
     }
 
     @Override
@@ -35,6 +37,13 @@ public class EnemyMovementSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
+        EnemyComponent e = entity.getComponent(EnemyComponent.class);
+        if (e.life <= 0) {
+            notify.onDestroyEnemy(entity);
+            EnemyManager.removeEnemy(engine, entity);
+            return;
+        }
+
         PositionComponent p = entity.getComponent(PositionComponent.class);
         VelocityComponent v = entity.getComponent(VelocityComponent.class);
         // 目標点
@@ -47,15 +56,12 @@ public class EnemyMovementSystem extends IteratingSystem {
             // pathのlength以上になったら最終目標点に到達したので、removeする。
             if (v.verticesIndex >= path.getTransformedVertices().length) {
                 EnemyManager.removeEnemy(engine, entity);
-                if (callback != null)
-                    callback.onReachEndPoint();
+                if (notify != null)
+                    notify.onReachEnd(entity);
             }
         }
         p.position.add(s.sub(p.position).nor().scl(v.speed));
     }
 
 
-    public interface IReachEndPoint {
-        void onReachEndPoint();
-    }
 }

@@ -10,4 +10,5 @@ public class BulletComponent extends Component {
 
     public Vector2 startPoint = new Vector2();
     public float range;
+    public float power = 2f;
 }

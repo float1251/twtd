@@ -4,9 +4,12 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
+import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.asset.AssetLoader;
 import jp.float1251.twtd.ecs.component.AttackComponent;
 import jp.float1251.twtd.ecs.component.BulletComponent;
+import jp.float1251.twtd.ecs.component.CircleColliderComponent;
+import jp.float1251.twtd.ecs.component.EnemyComponent;
 import jp.float1251.twtd.ecs.component.PositionComponent;
 import jp.float1251.twtd.ecs.component.RenderingComponent;
 import jp.float1251.twtd.ecs.component.VelocityComponent;
@@ -31,6 +34,7 @@ public class BulletFactory {
         vel.speed = 10f;
         vel.direction.set(dir);
         bullet.add(vel);
+        bullet.add(new CircleColliderComponent(20f));
         return bullet;
     }
 }

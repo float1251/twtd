@@ -9,6 +9,9 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 
 import jp.float1251.twtd.ecs.component.CircleColliderComponent;
+import jp.float1251.twtd.ecs.component.EnemyComponent;
+import jp.float1251.twtd.game.EnemyManager;
+import jp.float1251.twtd.listener.GameNotify;
 import jp.float1251.twtd.util.GameUtils;
 
 /**
@@ -16,7 +19,12 @@ import jp.float1251.twtd.util.GameUtils;
  */
 public class CollisionSystem extends EntitySystem {
 
+    private final GameNotify notify;
     private Engine engine;
+
+    public CollisionSystem(GameNotify notify){
+        this.notify = notify;
+    }
 
     @Override
     public void addedToEngine(Engine engine) {
@@ -39,8 +47,16 @@ public class CollisionSystem extends EntitySystem {
                 }
                 Circle c2 = GameUtils.createCircle(e2);
                 if (Intersector.overlaps(c1, c2)) {
-                    e.getComponent(CircleColliderComponent.class).callback.onCollision(e, e2);
-                    e2.getComponent(CircleColliderComponent.class).callback.onCollision(e2, e);
+                    notify.onCollision(e, e2);
+                }
+            }
+            // 削除フラグが立っていたら削除する
+            // TODO 敵と弾で違いが出るのは良くない.EnemyManageroではなく、engineで完結させるべきだったな。
+            if(e.getComponent(CircleColliderComponent.class).isRemove){
+                if(e.getComponent(EnemyComponent.class)!=null){
+                    EnemyManager.removeEnemy(engine, e);
+                }else{
+                    engine.removeEntity(e);
                 }
             }
             start++;

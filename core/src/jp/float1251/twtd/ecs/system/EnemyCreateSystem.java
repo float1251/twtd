@@ -46,5 +46,4 @@ public class EnemyCreateSystem extends EntitySystem {
         }
     }
 
-
 }

@@ -7,6 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
+import jp.float1251.twtd.GameLog;
+import jp.float1251.twtd.ecs.component.CircleColliderComponent;
 import jp.float1251.twtd.ecs.component.PositionComponent;
 import jp.float1251.twtd.ecs.component.RenderingComponent;
 import jp.float1251.twtd.ecs.component.VelocityComponent;
@@ -31,6 +33,7 @@ public class EnemyManager {
         enemy.add(new VelocityComponent());
         enemy.add(new EnemyComponent());
         enemy.add(new RenderingComponent(img));
+        enemy.add(new CircleColliderComponent(30f));
         enemyList.add(enemy);
         return enemy;
     }

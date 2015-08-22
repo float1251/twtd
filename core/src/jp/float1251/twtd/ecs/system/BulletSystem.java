@@ -28,8 +28,6 @@ public class BulletSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        // TODO 敵との衝突判定
-
         // 発射位置からの距離をみて削除するかどうか判定する
         BulletComponent b = entity.getComponent(BulletComponent.class);
         Vector2 start = b.startPoint;
