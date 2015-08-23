@@ -9,7 +9,7 @@ import jp.float1251.twtd.ecs.BulletFactory;
 /**
  * Created by t-iwatani on 2015/08/18.
  */
-public class UnitComponent extends Component{
+public class UnitComponent extends Component {
     /**
      * 攻撃力
      */
@@ -26,28 +26,44 @@ public class UnitComponent extends Component{
     public float range = 100f;
 
     /**
+     * 弾のスピード
+     */
+    public float speed = 1f;
+
+    /**
      *
      */
     public UnitType type = UnitType.RIFLE;
 
-    public enum UnitType{
+    public enum UnitType {
         RIFLE;
     }
 
     private float time;
 
-    public void addTime(float time){
+    public UnitComponent() {
+
+    }
+
+    public UnitComponent(UnitComponent data) {
+        power = data.power;
+        interval = data.interval;
+        range = data.range;
+        speed = data.speed;
+    }
+
+    public void addTime(float time) {
         this.time += time;
     }
 
-    public boolean shouldShoot(){
+    public boolean shouldShoot() {
         return time >= interval;
     }
 
-    public void shotIfNeeded(Engine engine, Vector2 pos, Vector2 dir){
-        if(time < interval)
+    public void shotIfNeeded(Engine engine, Vector2 pos, Vector2 dir) {
+        if (time < interval)
             return;
-        engine.addEntity(BulletFactory.createBullet(pos, dir));
+        engine.addEntity(BulletFactory.createBullet(pos, dir, power, range, speed));
         time = 0f;
     }
 }

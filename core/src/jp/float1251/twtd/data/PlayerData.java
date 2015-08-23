@@ -5,4 +5,5 @@ package jp.float1251.twtd.data;
  */
 public class PlayerData {
     public float coin = 100f;
+    public int life = 10;
 }

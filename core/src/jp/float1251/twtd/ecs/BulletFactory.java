@@ -4,12 +4,9 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
-import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.asset.AssetLoader;
-import jp.float1251.twtd.ecs.component.AttackComponent;
 import jp.float1251.twtd.ecs.component.BulletComponent;
 import jp.float1251.twtd.ecs.component.CircleColliderComponent;
-import jp.float1251.twtd.ecs.component.EnemyComponent;
 import jp.float1251.twtd.ecs.component.PositionComponent;
 import jp.float1251.twtd.ecs.component.RenderingComponent;
 import jp.float1251.twtd.ecs.component.VelocityComponent;
@@ -19,19 +16,17 @@ import jp.float1251.twtd.ecs.component.VelocityComponent;
  */
 public class BulletFactory {
 
-    public static Entity createBullet(Vector2 pos, Vector2 dir) {
+    public static Entity createBullet(Vector2 pos, Vector2 dir, float power, float range, float speed) {
         Entity bullet = new Entity();
-        bullet.add(new AttackComponent(2));
         bullet.add(new PositionComponent(pos));
         BulletComponent b = new BulletComponent();
+        b.power = power;
         b.startPoint.set(pos);
-        // TODO 仮
-        b.range = 100f;
+        b.range = range;
         bullet.add(b);
         bullet.add(new RenderingComponent(AssetLoader.getInstance().get("bullet.png", Texture.class)));
         VelocityComponent vel = new VelocityComponent();
-        // TODO 仮
-        vel.speed = 10f;
+        vel.speed = speed;
         vel.direction.set(dir);
         bullet.add(vel);
         bullet.add(new CircleColliderComponent(20f));

@@ -13,10 +13,10 @@ import jp.float1251.twtd.ecs.component.UnitComponent;
  * Created by t-iwatani on 2015/08/18.
  */
 public class UnitFactory {
-    public static Entity createUnit(Vector2 pos) {
+    public static Entity createUnit(Vector2 pos, UnitComponent data) {
         Entity entity = new Entity();
         entity.add(new PositionComponent(pos));
-        entity.add(new UnitComponent());
+        entity.add(new UnitComponent(data));
         entity.add(new RenderingComponent(AssetLoader.getInstance().get("cell/cell_unit.png", Texture.class)));
         return entity;
     }

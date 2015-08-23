@@ -8,10 +8,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
+import java.util.ArrayList;
+
 import jp.float1251.twtd.data.EnemySpawnData;
 import jp.float1251.twtd.data.WaveData;
 import jp.float1251.twtd.ecs.component.CircleColliderComponent;
 import jp.float1251.twtd.ecs.component.PositionComponent;
+import jp.float1251.twtd.ecs.component.UnitComponent;
 
 /**
  * Created by takahiro iwatani on 2015/05/26.
@@ -69,5 +72,35 @@ public class GameUtils {
         }
         return wd;
     }
+
+    public static ArrayList<UnitComponent> createUnitList() {
+        ArrayList<UnitComponent> list = new ArrayList<>();
+        UnitComponent uc = new UnitComponent();
+        uc.power = 1;
+        uc.interval = 0.1f;
+        uc.range = 100f;
+        uc.speed = 2f;
+        list.add(uc);
+        uc = new UnitComponent();
+        uc.power = 2;
+        uc.interval = 1.0f;
+        uc.range = 200f;
+        uc.speed = 2f;
+        list.add(uc);
+        uc = new UnitComponent();
+        uc.power = 2;
+        uc.interval = 0.5f;
+        uc.range = 300f;
+        uc.speed = 3f;
+        list.add(uc);
+        list.add(uc);
+        uc = new UnitComponent();
+        uc.power = 5;
+        uc.interval = 2.0f;
+        uc.range = 400f;
+        list.add(uc);
+        return list;
+    }
+
 
 }

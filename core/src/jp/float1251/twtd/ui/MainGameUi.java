@@ -8,18 +8,20 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisLabel;
+
+import java.util.ArrayList;
 
 import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.StageData;
 import jp.float1251.twtd.data.PlayerData;
 import jp.float1251.twtd.ecs.UnitFactory;
+import jp.float1251.twtd.ecs.component.UnitComponent;
 import jp.float1251.twtd.game.SelectedCell;
+import jp.float1251.twtd.util.GameUtils;
 
 /**
  * Created by takahiro iwatani on 2015/05/31.
@@ -43,17 +45,20 @@ public class MainGameUi {
 
         VisUI.load();
 
-        unitSelectUI = new UnitSelectUI(new ClickListener(){
+        // TODO ユーザーが設定したunitから設定できるようにする
+        ArrayList<UnitComponent> unitList = GameUtils.createUnitList();
+        unitSelectUI = new UnitSelectUI(unitList, new UnitSelectUI.IUnitSelectListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void onSelected(UnitComponent data) {
                 selectedCell.setSelected(false);
                 // positionは画像の左下だからcellの真ん中に表示させるためにずらす
                 // 画像のrenderingはimageのcenterをpivotとして行っている
-                Entity unit = UnitFactory.createUnit(selectedCell.getWorldPosition().add(32, 32));
+                Entity unit = UnitFactory.createUnit(selectedCell.getWorldPosition().add(32, 32), data);
                 engine.addEntity(unit);
                 unitSelectUI.hide();
             }
         });
+        unitSelectUI.hide();
         stage.addActor(unitSelectUI);
 
         label = new VisLabel();
