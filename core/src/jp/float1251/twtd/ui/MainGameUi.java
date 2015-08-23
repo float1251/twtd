@@ -10,14 +10,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisLabel;
-import com.kotcrab.vis.ui.widget.VisTable;
-import com.kotcrab.vis.ui.widget.VisTextButton;
 
 import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.StageData;
@@ -33,10 +29,10 @@ public class MainGameUi {
     private final Stage stage;
     private final Viewport viewport;
     private final SelectedCell selectedCell;
-    private final VisTable table;
     private final Engine engine;
     private final PlayerData data;
     private final VisLabel label;
+    private final UnitSelectUI unitSelectUI;
 
     public MainGameUi(final Viewport viewport, final StageData stageData, final Engine engine, PlayerData data) {
         stage = new Stage(viewport);
@@ -46,24 +42,8 @@ public class MainGameUi {
         selectedCell = new SelectedCell(viewport);
 
         VisUI.load();
-        label = new VisLabel();
-        label.setPosition(0, viewport.getCamera().viewportHeight -30);
-        stage.addActor(label);
-        table = new VisTable();
-        TextButton button = new VisTextButton("ABC");
-        button.getStyle().font.getData().setScale(3f);
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                GameLog.d("clicked");
-                selectedCell.setSelected(false);
-                table.addAction(Actions.moveTo(300, -100, 0.2f));
-            }
-        });
-        table.setPosition(300, -100);
-        table.add(button).size(200, 80).pad(2f);
-        button = new VisTextButton("DEC");
-        button.addListener(new ClickListener() {
+
+        unitSelectUI = new UnitSelectUI(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 selectedCell.setSelected(false);
@@ -71,11 +51,14 @@ public class MainGameUi {
                 // 画像のrenderingはimageのcenterをpivotとして行っている
                 Entity unit = UnitFactory.createUnit(selectedCell.getWorldPosition().add(32, 32));
                 engine.addEntity(unit);
-                table.addAction(Actions.moveTo(300, -100, 0.2f));
+                unitSelectUI.hide();
             }
         });
-        table.add(button).size(200, 80).pad(2f);
-        stage.addActor(table);
+        stage.addActor(unitSelectUI);
+
+        label = new VisLabel();
+        label.setPosition(0, viewport.getCamera().viewportHeight - 30);
+        stage.addActor(label);
         Gdx.input.setInputProcessor(new InputMultiplexer(stage, new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
@@ -100,10 +83,10 @@ public class MainGameUi {
                 if (stageData.enablePutUnit(pos)) {
                     GameLog.d("enablePutUnit");
                     selectedCell.setSelectedPosition(pos);
-                    table.addAction(Actions.moveTo(300, 100, 0.2f));
+                    unitSelectUI.show(selectedCell.getWorldPosition());
                 } else {
                     selectedCell.setSelected(false);
-                    table.addAction(Actions.moveTo(300, -100, 0.2f));
+                    unitSelectUI.hide();
                 }
 
                 return false;
@@ -136,7 +119,7 @@ public class MainGameUi {
     }
 
     public void draw() {
-        label.setText("Coin: "+(int)data.coin);
+        label.setText("Coin: " + (int) data.coin);
         SpriteBatch batch = (SpriteBatch) stage.getBatch();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         stage.draw();
@@ -144,10 +127,6 @@ public class MainGameUi {
         if (selectedCell.isSelected()) {
             selectedCell.draw(batch);
         }
-        // stage側でもdrawしてるので二重にrenderingしていることになるが、
-        // buttonの上にselectedCellを描画してしまうのが仕方なく再度renderしている。
-        // UIを確定させて後ほど対応を決める
-        table.draw(batch, 1);
         batch.end();
     }
 

@@ -3,11 +3,13 @@ package jp.float1251.twtd.ecs.system;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
 
-import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.data.EnemySpawnData;
 import jp.float1251.twtd.data.WaveData;
+import jp.float1251.twtd.ecs.component.EnemyComponent;
 import jp.float1251.twtd.game.EnemyManager;
 import jp.float1251.twtd.listener.GameNotify;
 
@@ -19,18 +21,33 @@ public class WaveSystem extends EntitySystem {
     // 出現地点
     private final Vector2 respawnPos;
     private final GameNotify notify;
-    private final WaveData data;
+    private WaveData data;
     // 時間
     private float time;
+    // 敵の出現間隔の時間
     private float enemyDeltaTime;
     // 出現数
     private int total;
     private Engine engine;
+    // enemyspawnDataのindex
     private int index;
+
+    // waveが終了しているかどうか
+    private boolean finishWave = false;
 
     public WaveSystem(Vector2 respawnPos, WaveData data, GameNotify notify) {
         this.respawnPos = respawnPos;
         this.notify = notify;
+        this.data = data;
+        init();
+    }
+
+    /**
+     * waveDataを設定する.
+     * 設定をしたらゲームが開始される.
+     * @param data
+     */
+    public void setWaveData(WaveData data){
         this.data = data;
         init();
     }
@@ -44,9 +61,15 @@ public class WaveSystem extends EntitySystem {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        if(finishWave)
+            return;
 
         if (index >= data.getDataList().size()) {
-            // TODO 敵を全滅したらwave終了のイベントを呼ぶ
+            ImmutableArray<Entity> list = engine.getEntitiesFor(Family.all(EnemyComponent.class).get());
+            if(list.size()  == 0){
+                // TODO 敵を全滅したらwave終了のイベントを呼ぶ
+                finishWave = true;
+            }
             return;
         }
 
@@ -60,8 +83,6 @@ public class WaveSystem extends EntitySystem {
                 engine.addEntity(enemy);
                 enemyDeltaTime = 0f;
                 total++;
-
-                GameLog.d(String.format("%d, %f, %f", index, time, enemyDeltaTime));
                 if (ed.total <= total) {
                     enemyDeltaTime = 0f;
                     total = 0;
@@ -77,6 +98,7 @@ public class WaveSystem extends EntitySystem {
         this.index = 0;
         this.time = 0f;
         this.enemyDeltaTime = 0f;
+        this.finishWave = false;
     }
 
 }

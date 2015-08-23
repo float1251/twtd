@@ -59,5 +59,4 @@ public class CollisionSystem extends EntitySystem {
             start++;
         }
     }
-
 }

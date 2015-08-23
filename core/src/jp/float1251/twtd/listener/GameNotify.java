@@ -4,8 +4,6 @@ import com.badlogic.ashley.core.Entity;
 
 import java.util.ArrayList;
 
-import jp.float1251.twtd.listener.IEnemyEventListener;
-
 /**
  * engineにobserverの役割をもたせる.
  * Created by t-iwatani on 2015/08/22.

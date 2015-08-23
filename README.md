@@ -17,6 +17,7 @@
 - [x] 弾とEnemyの衝突判定
 - [x] 敵を倒したらコインが貰える
 - [x] コイン表示
+- [ ] Unitの設定周りのUI変更
 - [ ] Unitの配置のコスト
 - [ ] Unitのアップデート
 - [x] AssetManagerの実装
@@ -24,7 +25,18 @@
 - [ ] Unitのタイプ分け
 - [ ] bulletのタイプ分け
 - [ ] Playerのlife表示
-- [ ] 敵の出現をスクリプトで行う
+- [x] 敵の出現をスクリプトで行う
 - [ ] 敵の出現のwave化
+- [ ] positionから配置されているunitのデータを取得する
+
+# json仕様
+{
+  time: , // 出現時間
+  type: ,
+  life: , // HP
+  speed: , // 速度
+  deltatime: , // 何秒ごとに
+  total: // 何体出すか
+}
 
 [![Gyazo](https://i.gyazo.com/a232afd41b9b6ea056f77ec15edc9fc0.gif)](https://gyazo.com/a232afd41b9b6ea056f77ec15edc9fc0)

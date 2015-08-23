@@ -33,7 +33,6 @@ public class UnitSystem extends IteratingSystem {
         UnitComponent uc = entity.getComponent(UnitComponent.class);
         uc.addTime(deltaTime);
         if (uc.shouldShoot()) {
-            // TODO EngineからEnemyをすべて取ってきて、ターゲットを決める
             // ターゲットは距離が一番近い敵にする
             Entity enemy = EnemyManager.getMinDistanceEnemy(pos.position, engine);
             if(enemy == null){
