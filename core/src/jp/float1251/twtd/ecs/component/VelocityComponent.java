@@ -21,4 +21,11 @@ public class VelocityComponent extends Component {
      * 敵の移動の際に使用する.
      */
     public int verticesIndex = 2; // polylineがfloat[]で偶数, 奇数がx, yとなっているため. 0, 1は0, 0.
+
+    public VelocityComponent() {
+    }
+
+    public VelocityComponent(float speed) {
+        this.speed = speed;
+    }
 }

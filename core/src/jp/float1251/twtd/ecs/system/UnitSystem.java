@@ -36,6 +36,9 @@ public class UnitSystem extends IteratingSystem {
             // TODO EngineからEnemyをすべて取ってきて、ターゲットを決める
             // ターゲットは距離が一番近い敵にする
             Entity enemy = EnemyManager.getMinDistanceEnemy(pos.position, engine);
+            if(enemy == null){
+                return;
+            }
             PositionComponent target = enemy.getComponent(PositionComponent.class);
             if(target.position.dst(pos.position) <= uc.range) {
                 Vector2 angle = target.position.cpy().sub(pos.position).nor();

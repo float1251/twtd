@@ -13,21 +13,23 @@ import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.StageData;
 import jp.float1251.twtd.TWTD;
 import jp.float1251.twtd.data.PlayerData;
+import jp.float1251.twtd.data.WaveData;
 import jp.float1251.twtd.ecs.component.BulletComponent;
 import jp.float1251.twtd.ecs.component.CircleColliderComponent;
 import jp.float1251.twtd.ecs.component.EnemyComponent;
 import jp.float1251.twtd.ecs.system.BulletSystem;
 import jp.float1251.twtd.ecs.system.CollisionSystem;
-import jp.float1251.twtd.ecs.system.EnemyCreateSystem;
 import jp.float1251.twtd.ecs.system.EnemyLifeRenderingSystem;
 import jp.float1251.twtd.ecs.system.EnemySystem;
 import jp.float1251.twtd.ecs.system.MoveSystem;
 import jp.float1251.twtd.ecs.system.RenderingSystem;
 import jp.float1251.twtd.ecs.system.UnitSystem;
+import jp.float1251.twtd.ecs.system.WaveSystem;
 import jp.float1251.twtd.listener.GameNotify;
 import jp.float1251.twtd.listener.IColliderListener;
 import jp.float1251.twtd.listener.IEnemyEventListener;
 import jp.float1251.twtd.ui.MainGameUi;
+import jp.float1251.twtd.util.GameUtils;
 
 /**
  * Created by takahiro iwatani on 2015/05/24.
@@ -56,7 +58,9 @@ public class MainGameScreen implements Screen {
         ui = new MainGameUi(viewport, stageData, engine, playerData);
         batch = new SpriteBatch();
         engine.addSystem(new RenderingSystem(batch));
-        engine.addSystem(new EnemyCreateSystem(stageData.getRespawnPosition()));
+        String json = Gdx.files.internal("wave/wave_data.json").readString();
+        WaveData data = GameUtils.createWaveData(json);
+        engine.addSystem(new WaveSystem(stageData.getRespawnPosition(), data, notify));
         engine.addSystem(new EnemySystem(stageData.path.getPolyline(), notify));
         notify.addEnemyEventListner(new IEnemyEventListener() {
             @Override
@@ -84,14 +88,14 @@ public class MainGameScreen implements Screen {
                 BulletComponent bc2 = e2.getComponent(BulletComponent.class);
 
                 // ともに敵 or 弾の際は何もしない
-                if((ec1 != null && ec2 != null) || (bc1 != null && bc2 !=null)){
+                if ((ec1 != null && ec2 != null) || (bc1 != null && bc2 != null)) {
                     return;
                 }
 
-                if(ec1 != null){
+                if (ec1 != null) {
                     ec1.life -= bc2.power;
                     e2.getComponent(CircleColliderComponent.class).isRemove = true;
-                }else{
+                } else {
                     ec2.life -= bc1.power;
                     e1.getComponent(CircleColliderComponent.class).isRemove = true;
                 }
