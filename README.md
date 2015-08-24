@@ -18,13 +18,13 @@
 - [x] 敵を倒したらコインが貰える
 - [x] コイン表示
 - [x] Unitの設定周りのUI変更
-- [ ] Unitの配置のコスト
+- [x] Unitの配置のコスト
 - [ ] Unitのアップデート
 - [x] AssetManagerの実装
 - [ ] ObjectPoolの実装
-- [ ] Unitのタイプ分け
+- [x] Unitのタイプ分け
 - [ ] bulletのタイプ分け
-- [ ] Playerのlife表示
+- [x] Playerのlife表示
 - [x] 敵の出現をスクリプトで行う
 - [ ] 敵の出現のwave化
 - [ ] positionから配置されているunitのデータを取得する
@@ -35,7 +35,7 @@
   type: ,
   life: , // HP
   speed: , // 速度
-  deltatime: , // 何秒ごとに
+  delta_time: , // 何秒ごとに
   total: // 何体出すか
 }
 

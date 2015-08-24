@@ -72,6 +72,10 @@ public class MainGameScreen implements Screen {
             @Override
             public void onReachEnd(Entity e) {
                 GameLog.d("onReachEnd");
+                playerData.life -= 1;
+                if (playerData.life <= 0) {
+                    GameLog.d("GameOver");
+                }
             }
         });
         engine.addSystem(new UnitSystem());

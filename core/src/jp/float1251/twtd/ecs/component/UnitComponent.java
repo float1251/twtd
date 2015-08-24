@@ -31,6 +31,13 @@ public class UnitComponent extends Component {
     public float speed = 1f;
 
     /**
+     * コスト
+     */
+    public int cost = 0;
+
+    public String texture = "cell/cell_unit.png";
+
+    /**
      *
      */
     public UnitType type = UnitType.RIFLE;
