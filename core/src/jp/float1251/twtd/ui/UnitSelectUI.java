@@ -22,14 +22,14 @@ public class UnitSelectUI extends VisTable {
         if (dataList.size() != 4) {
             new RuntimeException("UnitData must be added 4 data");
         }
-        VisTextButton b1 = createButton("unit1: 100");
+        VisTextButton b1 = createButton("unit1: " + dataList.get(0).cost);
         add(b1).size(80, 80).padRight(80);
-        VisTextButton b2 = createButton("unit2: 200");
+        VisTextButton b2 = createButton("unit2: " + dataList.get(1).cost);
         add(b2).size(80, 80);
         this.row();
-        VisTextButton b3 = createButton("unit3: 300");
+        VisTextButton b3 = createButton("unit3: " + dataList.get(2).cost);
         add(b3).size(80, 80).padRight(80);
-        VisTextButton b4 = createButton("unit3: 300");
+        VisTextButton b4 = createButton("unit4: " + dataList.get(3).cost);
         add(b4).size(80, 80);
         setDebug(true);
         b1.setUserObject(dataList.get(0));

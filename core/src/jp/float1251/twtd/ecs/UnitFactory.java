@@ -17,7 +17,7 @@ public class UnitFactory {
         Entity entity = new Entity();
         entity.add(new PositionComponent(pos));
         entity.add(new UnitComponent(data));
-        entity.add(new RenderingComponent(AssetLoader.getInstance().get("cell/cell_unit.png", Texture.class)));
+        entity.add(new RenderingComponent(AssetLoader.getInstance().get(data.texture, Texture.class)));
         return entity;
     }
 

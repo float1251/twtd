@@ -80,27 +80,32 @@ public class GameUtils {
         uc.interval = 0.1f;
         uc.range = 100f;
         uc.speed = 2f;
+        uc.cost = 10;
+        uc.texture = "cell/cell_unit.png";
         list.add(uc);
         uc = new UnitComponent();
         uc.power = 2;
         uc.interval = 1.0f;
         uc.range = 200f;
         uc.speed = 2f;
+        uc.cost = 20;
+        uc.texture = "cell/cell_unit_2.png";
         list.add(uc);
         uc = new UnitComponent();
         uc.power = 2;
         uc.interval = 0.5f;
         uc.range = 300f;
         uc.speed = 3f;
-        list.add(uc);
+        uc.cost = 30;
+        uc.texture = "cell/cell_unit_3.png";
         list.add(uc);
         uc = new UnitComponent();
         uc.power = 5;
         uc.interval = 2.0f;
         uc.range = 400f;
+        uc.cost = 40;
+        uc.texture = "cell/cell_unit_4.png";
         list.add(uc);
         return list;
     }
-
-
 }

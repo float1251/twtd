@@ -32,15 +32,16 @@ public class MainGameUi {
     private final Viewport viewport;
     private final SelectedCell selectedCell;
     private final Engine engine;
-    private final PlayerData data;
+    private final PlayerData playerData;
     private final VisLabel label;
     private final UnitSelectUI unitSelectUI;
+    private final VisLabel lifeLabel;
 
-    public MainGameUi(final Viewport viewport, final StageData stageData, final Engine engine, PlayerData data) {
+    public MainGameUi(final Viewport viewport, final StageData stageData, final Engine engine, final PlayerData playerData) {
         stage = new Stage(viewport);
         this.engine = engine;
         this.viewport = viewport;
-        this.data = data;
+        this.playerData = playerData;
         selectedCell = new SelectedCell(viewport);
 
         VisUI.load();
@@ -50,6 +51,10 @@ public class MainGameUi {
         unitSelectUI = new UnitSelectUI(unitList, new UnitSelectUI.IUnitSelectListener() {
             @Override
             public void onSelected(UnitComponent data) {
+                if (data.cost > playerData.coin) {
+                    return;
+                }
+                playerData.coin -= data.cost;
                 selectedCell.setSelected(false);
                 // positionは画像の左下だからcellの真ん中に表示させるためにずらす
                 // 画像のrenderingはimageのcenterをpivotとして行っている
@@ -63,7 +68,10 @@ public class MainGameUi {
 
         label = new VisLabel();
         label.setPosition(0, viewport.getCamera().viewportHeight - 30);
+        lifeLabel = new VisLabel();
+        lifeLabel.setPosition(viewport.getCamera().viewportWidth / 2, viewport.getCamera().viewportHeight - 30);
         stage.addActor(label);
+        stage.addActor(lifeLabel);
         Gdx.input.setInputProcessor(new InputMultiplexer(stage, new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
@@ -124,7 +132,8 @@ public class MainGameUi {
     }
 
     public void draw() {
-        label.setText("Coin: " + (int) data.coin);
+        label.setText("Coin: " + (int) playerData.coin);
+        lifeLabel.setText("Life: " + playerData.life);
         SpriteBatch batch = (SpriteBatch) stage.getBatch();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         stage.draw();

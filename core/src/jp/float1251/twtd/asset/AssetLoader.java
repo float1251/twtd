@@ -34,6 +34,9 @@ public class AssetLoader implements Disposable {
 
     public void load() {
         manager.load("cell/cell_unit.png", Texture.class);
+        manager.load("cell/cell_unit_2.png", Texture.class);
+        manager.load("cell/cell_unit_3.png", Texture.class);
+        manager.load("cell/cell_unit_4.png", Texture.class);
         manager.load("bullet.png", Texture.class);
 
         FileHandleResolver resolver = new InternalFileHandleResolver();
