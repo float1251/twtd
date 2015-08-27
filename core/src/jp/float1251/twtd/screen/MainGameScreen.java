@@ -29,6 +29,7 @@ import jp.float1251.twtd.listener.GameNotify;
 import jp.float1251.twtd.listener.IColliderListener;
 import jp.float1251.twtd.listener.IEnemyEventListener;
 import jp.float1251.twtd.ui.MainGameUi;
+import jp.float1251.twtd.ui.WaveLabel;
 import jp.float1251.twtd.util.GameUtils;
 
 /**
@@ -53,14 +54,24 @@ public class MainGameScreen implements Screen {
         stageData = new StageData("stage/stage1.tmx");
         stageData.setView((OrthographicCamera) viewport.getCamera());
 
-        GameNotify notify = new GameNotify();
+        final GameNotify notify = new GameNotify();
         this.engine = new Engine();
         ui = new MainGameUi(viewport, stageData, engine, playerData);
+        WaveLabel waveLabel = new WaveLabel();
+        waveLabel.hide();
+        waveLabel.setText("Wave: 1");
+        ui.stage.addActor(waveLabel);
         batch = new SpriteBatch();
         engine.addSystem(new RenderingSystem(batch));
         String json = Gdx.files.internal("wave/wave_data.json").readString();
-        WaveData data = GameUtils.createWaveData(json);
-        engine.addSystem(new WaveSystem(stageData.getRespawnPosition(), data, notify));
+        final WaveData data = GameUtils.createWaveData(json);
+        // engine.addSystem(new WaveSystem(stageData.getRespawnPosition(), data, notify));
+        waveLabel.show(new Runnable() {
+            @Override
+            public void run() {
+                engine.addSystem(new WaveSystem(stageData.getRespawnPosition(), data, notify));
+            }
+        });
         engine.addSystem(new EnemySystem(stageData.path.getPolyline(), notify));
         notify.addEnemyEventListner(new IEnemyEventListener() {
             @Override

@@ -28,7 +28,7 @@ import jp.float1251.twtd.util.GameUtils;
  */
 public class MainGameUi {
 
-    private final Stage stage;
+    public final Stage stage;
     private final Viewport viewport;
     private final SelectedCell selectedCell;
     private final Engine engine;

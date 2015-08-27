@@ -51,6 +51,12 @@ public class AssetLoader implements Disposable {
         param.fontParameters.shadowOffsetY = 3;
         manager.load("size30.ttf", BitmapFont.class, param);
 
+        FreetypeFontLoader.FreeTypeFontLoaderParameter param2 = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        param2.fontFileName = "font/PixelMplus12-Regular.ttf";
+        param2.fontParameters.size = 100;
+        param2.fontParameters.shadowOffsetX = 3;
+        param2.fontParameters.shadowOffsetY = 3;
+        manager.load("size50.ttf", BitmapFont.class, param2);
         // TODO blockされるからasyncにする
         manager.finishLoading();
     }

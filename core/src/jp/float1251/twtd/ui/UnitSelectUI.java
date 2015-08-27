@@ -31,7 +31,6 @@ public class UnitSelectUI extends VisTable {
         add(b3).size(80, 80).padRight(80);
         VisTextButton b4 = createButton("unit4: " + dataList.get(3).cost);
         add(b4).size(80, 80);
-        setDebug(true);
         b1.setUserObject(dataList.get(0));
         b1.addListener(new UnitButtonListener(b1, listener));
         b2.setUserObject(dataList.get(1));
