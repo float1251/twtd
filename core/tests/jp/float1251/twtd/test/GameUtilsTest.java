@@ -29,7 +29,7 @@ import static org.junit.Assert.assertThat;
 public class GameUtilsTest {
 
     @Test
-    public void testScreenToCellPosition() {
+    public void testWorldToCellPosition() {
         Vector2 pos = GameUtils.worldToCellPosition(0, 0);
         assertThat(pos.x, is(0f));
 

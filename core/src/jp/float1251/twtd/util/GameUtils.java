@@ -28,7 +28,7 @@ public class GameUtils {
      * @return
      */
     public static Vector2 worldToCellPosition(float x, float y) {
-        return new Vector2((int) x / 64, (int) y / 64);
+        return new Vector2((int)x / 64, (int)y / 64);
     }
 
 

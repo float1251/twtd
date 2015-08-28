@@ -35,8 +35,8 @@ public class RenderingSystem extends EntitySystem {
         for (Entity entity : entities) {
             img = entity.getComponent(RenderingComponent.class).texture;
             PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
-            batch.draw(img, positionComponent.position.x - img.getWidth() / 2,
-                    positionComponent.position.y - img.getHeight() / 2);
+            batch.draw(img, positionComponent.position.x - img.getWidth() / 2f,
+                    positionComponent.position.y - img.getHeight() / 2f);
         }
         batch.end();
     }

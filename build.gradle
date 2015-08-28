@@ -35,7 +35,6 @@ allprojects {
 project(":desktop") {
     apply plugin: "java"
 
-
     dependencies {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
@@ -81,6 +80,19 @@ project(":android") {
 
 project(":core") {
     apply plugin: "java"
+    apply plugin: "findbugs"
+
+    tasks.withType(FindBugs) {
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+
+    findbugs {
+        sourceSets = [sourceSets.main]
+        excludeFilter = file("$rootProject.projectDir/excludeFilter.xml")
+    }
 
     sourceSets.test.java.srcDirs = ["tests/"]
 
@@ -91,9 +103,11 @@ project(":core") {
         compile "com.kotcrab.vis:vis-ui:$visuiVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         testCompile 'junit:junit:4.+'
-
     }
 }
+
+
+
 
 tasks.eclipse.doLast {
     delete ".project"

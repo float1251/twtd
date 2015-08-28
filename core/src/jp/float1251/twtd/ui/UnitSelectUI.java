@@ -17,10 +17,9 @@ import jp.float1251.twtd.ecs.component.UnitComponent;
  */
 public class UnitSelectUI extends VisTable {
 
-
     public UnitSelectUI(ArrayList<UnitComponent> dataList, IUnitSelectListener listener) {
         if (dataList.size() != 4) {
-            new RuntimeException("UnitData must be added 4 data");
+            throw new RuntimeException("UnitData must be added 4 data");
         }
         VisTextButton b1 = createButton("unit1: " + dataList.get(0).cost);
         add(b1).size(80, 80).padRight(80);
@@ -65,7 +64,7 @@ public class UnitSelectUI extends VisTable {
         void onSelected(UnitComponent data);
     }
 
-    private class UnitButtonListener extends ClickListener {
+    private static class UnitButtonListener extends ClickListener {
 
         private final Button button;
         private final UnitSelectUI.IUnitSelectListener listener;

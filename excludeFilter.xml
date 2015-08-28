@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <Match>
+        <Method name="worldToCellPosition" params="float, float" returns="com.badlogic.gdx.math.Vector2"/>
+    	<Bug pattern="ICAST_IDIV_CAST_TO_DOUBLE" />
+    </Match>
+</FindBugsFilter>

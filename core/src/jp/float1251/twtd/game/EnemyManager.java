@@ -22,7 +22,7 @@ import jp.float1251.twtd.ecs.component.EnemyComponent;
  */
 public class EnemyManager {
 
-    public static Texture img = new Texture("enemy.png");
+    public static final Texture img = new Texture("enemy.png");
 
     private EnemyManager() {
 
