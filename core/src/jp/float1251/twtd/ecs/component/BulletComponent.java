@@ -12,4 +12,10 @@ public class BulletComponent extends Component {
     public float range;
     public float power = 2f;
 
+    /**
+     * この弾に当たったら遅くなるか
+     */
+    public boolean slow = false;
+
+    public float slowTime = 0f;
 }

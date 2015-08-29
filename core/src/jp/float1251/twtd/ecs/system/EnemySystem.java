@@ -59,7 +59,9 @@ public class EnemySystem extends IteratingSystem {
                     notify.onReachEnd(entity);
             }
         }
-        p.position.add(s.sub(p.position).nor().scl(v.speed));
+        float speed = e.slow ? v.speed / 3.0f : v.speed;
+        p.position.add(s.sub(p.position).nor().scl(speed));
+        e.update(deltaTime);
     }
 
 

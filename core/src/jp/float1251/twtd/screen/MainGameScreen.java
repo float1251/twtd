@@ -89,7 +89,7 @@ public class MainGameScreen implements Screen {
         waveLabel = new WaveLabel("Wave: 1");
         waveLabel.hide();
         ui.stage.addActor(waveLabel);
-        batch = new SpriteBatch();
+        batch = (SpriteBatch) ui.stage.getBatch();
         engine.addSystem(new RenderingSystem(batch));
         String json = Gdx.files.internal("wave/wave_data.json").readString();
         final WaveData data = GameUtils.createWaveData(json);
@@ -104,15 +104,14 @@ public class MainGameScreen implements Screen {
         notify.addEnemyEventListner(new IEnemyEventListener() {
             @Override
             public void onDestroyEnemy(Entity e) {
-                GameLog.d("onDestroyEnemy");
                 playerData.coin += 10;
             }
 
             @Override
             public void onReachEnd(Entity e) {
-                GameLog.d("onReachEnd");
                 playerData.life -= 1;
                 if (playerData.life <= 0) {
+                    // TODO gameOver通知
                     GameLog.d("GameOver");
                 }
             }
@@ -137,9 +136,13 @@ public class MainGameScreen implements Screen {
 
                 if (ec1 != null) {
                     ec1.life -= bc2.power;
+                    ec1.slow = bc2.slow;
+                    ec1.slowTime = bc2.slowTime;
                     e2.getComponent(CircleColliderComponent.class).isRemove = true;
                 } else {
                     ec2.life -= bc1.power;
+                    ec2.slow = bc1.slow;
+                    ec2.slowTime = bc1.slowTime;
                     e1.getComponent(CircleColliderComponent.class).isRemove = true;
                 }
             }

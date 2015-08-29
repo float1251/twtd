@@ -1,19 +1,11 @@
 package jp.float1251.twtd.ui;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-
-import jp.float1251.twtd.asset.AssetLoader;
 
 /**
  * Created by t-iwatani on 2015/08/27.
  */
 public class WaveLabel extends CustomTextLabel {
-
-    private String text;
 
     public WaveLabel(String text) {
         super(text);

@@ -7,15 +7,11 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.ArrayList;
-import java.util.Vector;
-
-import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.ecs.component.CircleColliderComponent;
+import jp.float1251.twtd.ecs.component.EnemyComponent;
 import jp.float1251.twtd.ecs.component.PositionComponent;
 import jp.float1251.twtd.ecs.component.RenderingComponent;
 import jp.float1251.twtd.ecs.component.VelocityComponent;
-import jp.float1251.twtd.ecs.component.EnemyComponent;
 
 /**
  * Created by t-iwatani on 2015/08/19.

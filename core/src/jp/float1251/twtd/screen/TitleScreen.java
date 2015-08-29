@@ -3,14 +3,11 @@ package jp.float1251.twtd.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.TWTD;
 import jp.float1251.twtd.asset.AssetLoader;
 import jp.float1251.twtd.ui.CustomTextLabel;
@@ -35,7 +32,6 @@ public class TitleScreen implements Screen {
         stage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                GameLog.d("clicked");
                 game.setScreen(new MenuScreen(game));
             }
         });

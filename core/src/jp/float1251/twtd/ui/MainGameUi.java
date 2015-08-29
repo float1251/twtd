@@ -94,7 +94,6 @@ public class MainGameUi {
                 Vector3 pos = viewport.unproject(new Vector3(screenX, screenY, 0));
                 GameLog.d(String.format("World: %f, %f", pos.x, pos.y));
                 if (stageData.enablePutUnit(pos)) {
-                    GameLog.d("enablePutUnit");
                     selectedCell.setSelectedPosition(pos);
                     unitSelectUI.show(selectedCell.getWorldPosition());
                 } else {

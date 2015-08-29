@@ -89,6 +89,8 @@ public class GameUtils {
         uc.range = 200f;
         uc.speed = 2f;
         uc.cost = 20;
+        uc.type = UnitComponent.UnitType.SLOW;
+        uc.slowTime = 5f;
         uc.texture = "cell/cell_unit_2.png";
         list.add(uc);
         uc = new UnitComponent();

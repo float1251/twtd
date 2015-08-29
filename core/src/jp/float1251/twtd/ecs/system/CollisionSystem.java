@@ -8,7 +8,6 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 
-import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.ecs.component.CircleColliderComponent;
 import jp.float1251.twtd.listener.GameNotify;
 import jp.float1251.twtd.util.GameUtils;

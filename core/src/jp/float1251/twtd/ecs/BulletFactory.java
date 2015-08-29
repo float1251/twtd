@@ -16,13 +16,15 @@ import jp.float1251.twtd.ecs.component.VelocityComponent;
  */
 public class BulletFactory {
 
-    public static Entity createBullet(Vector2 pos, Vector2 dir, float power, float range, float speed) {
+    public static Entity createBullet(Vector2 pos, Vector2 dir, float power, float range, float speed, boolean slow, float slowTime) {
         Entity bullet = new Entity();
         bullet.add(new PositionComponent(pos));
         BulletComponent b = new BulletComponent();
         b.power = power;
         b.startPoint.set(pos);
         b.range = range;
+        b.slow = slow;
+        b.slowTime = slowTime;
         bullet.add(b);
         bullet.add(new RenderingComponent(AssetLoader.getInstance().get("bullet.png", Texture.class)));
         VelocityComponent vel = new VelocityComponent();

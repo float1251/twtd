@@ -42,8 +42,11 @@ public class UnitComponent extends Component {
      */
     public UnitType type = UnitType.RIFLE;
 
+    public float slowTime = 0f;
+
     public enum UnitType {
-        RIFLE;
+        RIFLE,
+        SLOW
     }
 
     private float time;
@@ -57,6 +60,8 @@ public class UnitComponent extends Component {
         interval = data.interval;
         range = data.range;
         speed = data.speed;
+        type = data.type;
+        slowTime = data.slowTime;
     }
 
     public void addTime(float time) {
@@ -70,7 +75,7 @@ public class UnitComponent extends Component {
     public void shotIfNeeded(Engine engine, Vector2 pos, Vector2 dir) {
         if (time < interval)
             return;
-        engine.addEntity(BulletFactory.createBullet(pos, dir, power, range, speed));
+        engine.addEntity(BulletFactory.createBullet(pos, dir, power, range, speed, type == UnitType.SLOW, slowTime));
         time = 0f;
     }
 }
