@@ -57,9 +57,8 @@ public class MainGameScreen implements Screen {
         final GameNotify notify = new GameNotify();
         this.engine = new Engine();
         ui = new MainGameUi(viewport, stageData, engine, playerData);
-        WaveLabel waveLabel = new WaveLabel();
+        WaveLabel waveLabel = new WaveLabel("Wave: 1");
         waveLabel.hide();
-        waveLabel.setText("Wave: 1");
         ui.stage.addActor(waveLabel);
         batch = new SpriteBatch();
         engine.addSystem(new RenderingSystem(batch));

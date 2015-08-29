@@ -11,21 +11,12 @@ import jp.float1251.twtd.asset.AssetLoader;
 /**
  * Created by t-iwatani on 2015/08/27.
  */
-public class WaveLabel extends Actor {
+public class WaveLabel extends CustomTextLabel {
 
-    private final BitmapFont font;
     private String text;
-    private GlyphLayout layout;
 
-    public WaveLabel() {
-        this.font = AssetLoader.getInstance().get("size50.ttf", BitmapFont.class);
-        // http://stackoverflow.com/questions/16600547/how-get-a-string-width-in-libgdx
-        this.layout = new GlyphLayout(font, "");
-    }
-
-    public void setText(String text) {
-        this.text = text;
-        this.layout.setText(font, text);
+    public WaveLabel(String text) {
+        super(text);
     }
 
     public void show(final Runnable onComplete) {
@@ -52,8 +43,4 @@ public class WaveLabel extends Actor {
         setVisible(false);
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        font.draw(batch, text, getX(), getY());
-    }
 }
