@@ -26,7 +26,7 @@
 - [x] AssetManagerの実装
 - [ ] ObjectPoolの実装
 - [x] Unitのタイプ分け
-- [ ] bulletのタイプ分け
+- [x] bulletのタイプ分け
 - [x] Playerのlife表示
 - [x] 敵の出現をスクリプトで行う
 - [x] 敵の出現のwave化

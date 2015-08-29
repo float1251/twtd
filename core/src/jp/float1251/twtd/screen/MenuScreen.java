@@ -36,14 +36,14 @@ public class MenuScreen implements Screen {
                 game.setScreen(new MainGameScreen(game));
             }
         });
-        table.add(button).row();
+        table.add(button).size(200, 100).row();
         button = new VisTextButton("setting unit");
         button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
             }
         });
-        table.add(button).row();
+        table.add(button).size(200, 100).row();
         table.setFillParent(true);
         stage.addActor(table);
     }
