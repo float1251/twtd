@@ -92,6 +92,8 @@ project(":core") {
     findbugs {
         sourceSets = [sourceSets.main]
         excludeFilter = file("$rootProject.projectDir/excludeFilter.xml")
+        ignoreFailures = true
+        reportLevel = "medium"
     }
 
     sourceSets.test.java.srcDirs = ["tests/"]
