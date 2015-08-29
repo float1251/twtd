@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.StageData;
 import jp.float1251.twtd.TWTD;
@@ -43,9 +46,13 @@ public class MainGameScreen implements Screen {
     private final Engine engine;
     private final SpriteBatch batch;
     private final PlayerData playerData;
+    private final WaveLabel waveLabel;
+
+    private int waveNum = 1;
 
     public MainGameScreen(final TWTD game) {
         this.game = game;
+        // TODO initの整理
         this.playerData = new PlayerData();
         OrthographicCamera camera = new OrthographicCamera();
         viewport = new FitViewport(960, 640, camera);
@@ -55,9 +62,31 @@ public class MainGameScreen implements Screen {
         stageData.setView((OrthographicCamera) viewport.getCamera());
 
         final GameNotify notify = new GameNotify();
+        notify.addListener("onWaveEnd", new GameNotify.Runnable() {
+            @Override
+            public void run(Object... args) {
+                // TODO next wave
+                // TODO stage clear判定
+                // TODO Promise化
+                waveNum++;
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        waveLabel.setText("Wave: " + waveNum);
+                        waveLabel.show(new Runnable() {
+                            @Override
+                            public void run() {
+                                nextWave(waveNum);
+                            }
+                        });
+                    }
+                }, 2000);
+
+            }
+        });
         this.engine = new Engine();
         ui = new MainGameUi(viewport, stageData, engine, playerData);
-        WaveLabel waveLabel = new WaveLabel("Wave: 1");
+        waveLabel = new WaveLabel("Wave: 1");
         waveLabel.hide();
         ui.stage.addActor(waveLabel);
         batch = new SpriteBatch();
@@ -158,5 +187,12 @@ public class MainGameScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    private void nextWave(int waveNum) {
+        WaveSystem system = engine.getSystem(WaveSystem.class);
+        String json = Gdx.files.internal("wave/wave_data.json").readString();
+        final WaveData data = GameUtils.createWaveData(json);
+        system.setWaveData(data);
     }
 }

@@ -6,6 +6,10 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import jp.float1251.twtd.data.EnemySpawnData;
 import jp.float1251.twtd.data.WaveData;
@@ -45,9 +49,10 @@ public class WaveSystem extends EntitySystem {
     /**
      * waveDataを設定する.
      * 設定をしたらゲームが開始される.
+     *
      * @param data
      */
-    public void setWaveData(WaveData data){
+    public void setWaveData(WaveData data) {
         this.data = data;
         init();
     }
@@ -61,14 +66,15 @@ public class WaveSystem extends EntitySystem {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        if(finishWave)
+        if (finishWave)
             return;
 
         if (index >= data.getDataList().size()) {
             ImmutableArray<Entity> list = engine.getEntitiesFor(Family.all(EnemyComponent.class).get());
-            if(list.size()  == 0){
-                // TODO 敵を全滅したらwave終了のイベントを呼ぶ
+            if (list.size() == 0) {
+                // 敵を全滅したらwave終了のイベントを呼ぶ
                 finishWave = true;
+                notify.sendMessage("onWaveEnd");
             }
             return;
         }
