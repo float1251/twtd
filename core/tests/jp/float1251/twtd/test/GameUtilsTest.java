@@ -3,8 +3,6 @@ package jp.float1251.twtd.test;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
 
 import org.junit.Test;
 
@@ -51,7 +49,7 @@ public class GameUtilsTest {
     }
 
     @Test
-    public void testCreateWaveDate(){
+    public void testCreateWaveDate() {
         String text = null;
         try {
             text = readFile("tests/resources/wave_data.json");
@@ -68,12 +66,12 @@ public class GameUtilsTest {
         assertEquals(res.getDataList().get(0).total, 1, 0);
     }
 
-    private static String readFile(String path) throws Exception{
+    private static String readFile(String path) throws Exception {
         File a = new File(path);
         BufferedReader br = new BufferedReader(new FileReader(a));
         String str = br.readLine();
         String json = "";
-        while(str != null){
+        while (str != null) {
             json += str;
             str = br.readLine();
         }

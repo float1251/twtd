@@ -43,7 +43,6 @@ public class AssetLoader implements Disposable {
         manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
         manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 
-
         FreetypeFontLoader.FreeTypeFontLoaderParameter param = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         param.fontFileName = "font/PixelMplus12-Regular.ttf";
         param.fontParameters.size = 30;
