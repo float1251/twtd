@@ -33,7 +33,6 @@ public class TitleScreen implements Screen {
         stage.addActor(title);
 
         stage.addListener(new ClickListener() {
-
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 GameLog.d("clicked");

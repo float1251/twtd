@@ -5,9 +5,9 @@ import org.junit.Test;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.*;
-
 import jp.float1251.twtd.listener.GameNotify;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by t-iwatani on 2015/08/29.
