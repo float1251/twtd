@@ -186,7 +186,6 @@ public class MainGameScreen implements Screen {
 
     @Override
     public void dispose() {
-
     }
 
     private void nextWave(int waveNum) {

@@ -32,6 +32,7 @@
 - [x] 敵の出現のwave化
 - [ ] positionから配置されているunitのデータを取得する
 - [ ] はじめに簡易的なloading画面を表示する
+- [ ] dispose処理
 
 # json仕様
 {
