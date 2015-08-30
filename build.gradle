@@ -104,12 +104,14 @@ project(":core") {
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
         compile "com.kotcrab.vis:vis-ui:$visuiVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+
         testCompile 'junit:junit:4.+'
+        testCompile 'org.powermock:powermock-module-junit4:1.6.2'
+        testCompile 'org.powermock:powermock-api-mockito:1.6.2'
     }
+
+
 }
-
-
-
 
 tasks.eclipse.doLast {
     delete ".project"
