@@ -37,6 +37,11 @@ public class CustomTextLabel extends Actor{
     }
 
     @Override
+    public float getWidth() {
+        return this.layout.width;
+    }
+
+    @Override
     public void draw(Batch batch, float parentAlpha) {
         font.draw(batch, text, getX(), getY());
     }

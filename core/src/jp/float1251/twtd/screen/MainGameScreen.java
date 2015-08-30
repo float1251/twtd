@@ -2,11 +2,15 @@ package jp.float1251.twtd.screen;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.Timer;
@@ -31,6 +35,7 @@ import jp.float1251.twtd.ecs.system.WaveSystem;
 import jp.float1251.twtd.listener.GameNotify;
 import jp.float1251.twtd.listener.IColliderListener;
 import jp.float1251.twtd.listener.IEnemyEventListener;
+import jp.float1251.twtd.ui.CustomTextLabel;
 import jp.float1251.twtd.ui.MainGameUi;
 import jp.float1251.twtd.ui.WaveLabel;
 
@@ -72,7 +77,6 @@ public class MainGameScreen implements Screen {
         SpriteBatch batch = (SpriteBatch) ui.stage.getBatch();
         engine.addSystem(new RenderingSystem(batch));
         engine.addSystem(new EnemySystem(stageData.path, notify));
-
         engine.addSystem(new UnitSystem());
         engine.addSystem(new MoveSystem());
         engine.addSystem(new BulletSystem());
@@ -143,10 +147,10 @@ public class MainGameScreen implements Screen {
         notify.addListener("onWaveEnd", new GameNotify.Runnable() {
             @Override
             public void run(Object... args) {
-                // TODO stage clear判定
+                // stage clear判定
                 waveNum++;
                 if (datas.length < waveNum) {
-                    notify.sendMessage("OnGameClear");
+                    notify.sendMessage("onGameClear");
                     return;
                 }
                 new Timer().schedule(new TimerTask() {
@@ -167,13 +171,28 @@ public class MainGameScreen implements Screen {
         notify.addListener("onGameClear", new GameNotify.Runnable() {
             @Override
             public void run(Object... args) {
-                // TODO GameClear
+                // GameClear
                 // とりあえず、敵を動かすのをやめる
                 engine.removeSystem(engine.getSystem(EnemySystem.class));
                 engine.removeSystem(engine.getSystem(WaveSystem.class));
                 engine.removeSystem(engine.getSystem(MoveSystem.class));
                 engine.removeSystem(engine.getSystem(UnitSystem.class));
                 engine.removeSystem(engine.getSystem(BulletSystem.class));
+
+                // GameClearのテキストを表示する
+                Table table = new Table();
+                table.setFillParent(true);
+                CustomTextLabel label = new CustomTextLabel("GameClear");
+                ui.stage.clear();
+                ui.stage.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        game.setScreen(new MenuScreen(game));
+                    }
+                });
+                Gdx.input.setInputProcessor(ui.stage);
+                table.add(label).center().row();
+                ui.stage.addActor(table);
             }
         });
         notify.addEnemyEventListener(new IEnemyEventListener() {
@@ -186,8 +205,8 @@ public class MainGameScreen implements Screen {
             public void onReachEnd(Entity e) {
                 playerData.life -= 1;
                 if (playerData.life <= 0) {
-                    // TODO gameOver通知
-                    GameLog.d("GameOver");
+                    // gameOver通知
+                    notify.sendMessage("onGameOver");
                 }
             }
         });
@@ -215,6 +234,40 @@ public class MainGameScreen implements Screen {
                     ec2.slowTime = bc1.slowTime;
                     e1.getComponent(CircleColliderComponent.class).isRemove = true;
                 }
+            }
+        });
+        notify.addListener("onGameOver", new GameNotify.Runnable() {
+            @Override
+            public void run(Object... args) {
+                // engineのsystemを削除してるからかErrorで落ちる.
+                // IteratingSystemのprocessEntityの途中でremoveするとNullPointerになる
+                // そのため、削除用のsystemを作成して、次フレームでsystemを削除する.
+                // とりあえず、敵を動かすのをやめる
+                engine.addSystem(new EntitySystem() {
+                    @Override
+                    public void update(float deltaTime) {
+                        engine.removeSystem(engine.getSystem(EnemySystem.class));
+                        engine.removeSystem(engine.getSystem(WaveSystem.class));
+                        engine.removeSystem(engine.getSystem(MoveSystem.class));
+                        engine.removeSystem(engine.getSystem(UnitSystem.class));
+                        engine.removeSystem(engine.getSystem(BulletSystem.class));
+                    }
+                });
+
+                // GameOverのテキストを表示する
+                Table table = new Table();
+                table.setFillParent(true);
+                CustomTextLabel label = new CustomTextLabel("GameOver");
+                ui.stage.clear();
+                ui.stage.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        game.setScreen(new MenuScreen(game));
+                    }
+                });
+                Gdx.input.setInputProcessor(ui.stage);
+                table.add(label).center().row();
+                ui.stage.addActor(table);
             }
         });
     }

@@ -54,6 +54,7 @@ public class GameNotify {
     }
 
     public void sendMessage(String msg) {
+        GameLog.d(msg);
         if(!listeners.containsKey(msg))
             return;
         for (Runnable a : listeners.get(msg)) {
