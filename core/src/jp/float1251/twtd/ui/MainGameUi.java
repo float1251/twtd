@@ -9,6 +9,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisLabel;
@@ -26,7 +27,7 @@ import jp.float1251.twtd.util.GameUtils;
 /**
  * Created by takahiro iwatani on 2015/05/31.
  */
-public class MainGameUi {
+public class MainGameUi implements Disposable {
 
     public final Stage stage;
     private final Viewport viewport;
@@ -143,4 +144,8 @@ public class MainGameUi {
         batch.end();
     }
 
+    @Override
+    public void dispose() {
+        stage.dispose();
+    }
 }

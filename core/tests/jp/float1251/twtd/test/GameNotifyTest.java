@@ -18,9 +18,9 @@ public class GameNotifyTest {
     public void addListener() {
         GameNotify notify = new GameNotify();
         notify.addListener("msg", null);
-        assertEquals(1, notify.getListnerCount("msg"));
+        assertEquals(1, notify.getListenerCount("msg"));
         notify.removeAllListener("msg");
-        assertEquals(0, notify.getListnerCount("msg"));
+        assertEquals(0, notify.getListenerCount("msg"));
     }
 
     @Test
@@ -34,7 +34,7 @@ public class GameNotifyTest {
                 lock.countDown();
             }
         });
-        assertEquals(1, notify.getListnerCount("test"));
+        assertEquals(1, notify.getListenerCount("test"));
 
         notify.addListener("aaa", new GameNotify.Runnable() {
             @Override

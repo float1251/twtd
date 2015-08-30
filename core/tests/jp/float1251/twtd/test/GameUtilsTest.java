@@ -1,6 +1,8 @@
 package jp.float1251.twtd.test;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -64,6 +66,13 @@ public class GameUtilsTest {
         assertEquals(res.getDataList().get(0).time, 3.5, 0);
         assertEquals(res.getDataList().get(0).deltaTime, 0, 0);
         assertEquals(res.getDataList().get(0).total, 1, 0);
+    }
+
+    @Test
+    public void createStageWaveData() throws Exception {
+        String text = readFile("tests/resources/stage.json");
+        String[] pathes= GameUtils.createStageWaveDataPathArray(text);
+        assertEquals(pathes.length, 2);
     }
 
     private static String readFile(String path) throws Exception {

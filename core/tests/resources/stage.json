@@ -1,0 +1,6 @@
+{
+  "wave_json":[
+    "tests/resources/wave_data.json",
+    "tests/resources/wave_data.json"
+  ]
+}

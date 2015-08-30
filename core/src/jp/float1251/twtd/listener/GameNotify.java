@@ -5,51 +5,58 @@ import com.badlogic.ashley.core.Entity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import jp.float1251.twtd.GameLog;
+
 /**
  * engineにobserverの役割をもたせる.
  * Created by t-iwatani on 2015/08/22.
  */
 public class GameNotify {
 
-    private final HashMap<String, ArrayList<Runnable>> listners;
+    private final HashMap<String, ArrayList<Runnable>> listeners;
     private ArrayList<IEnemyEventListener> enemyEventListenerList = new ArrayList<>();
     private ArrayList<IColliderListener> colliderListenerList = new ArrayList<>();
 
     public GameNotify() {
-        listners = new HashMap<>();
+        listeners = new HashMap<>();
     }
 
     public void addListener(String msg, Runnable callback) {
-        if (!listners.containsKey(msg)) {
-            listners.put(msg, new ArrayList<Runnable>());
+        if (!listeners.containsKey(msg)) {
+            listeners.put(msg, new ArrayList<Runnable>());
         }
-        listners.get(msg).add(callback);
+        listeners.get(msg).add(callback);
     }
 
     public void removeAllListener(String msg) {
-        if (listners.containsKey(msg))
-            listners.get(msg).clear();
+        if (listeners.containsKey(msg))
+            listeners.get(msg).clear();
     }
 
-    public int getListnerCount(String msg) {
-        if (!listners.containsKey(msg)) {
-            listners.put(msg, new ArrayList<Runnable>());
+    public int getListenerCount(String msg) {
+        if (!listeners.containsKey(msg)) {
+            listeners.put(msg, new ArrayList<Runnable>());
         }
-        return listners.get(msg).size();
+        return listeners.get(msg).size();
     }
 
-    public void addEnemyEventListner(IEnemyEventListener o) {
+    public void addEnemyEventListener(IEnemyEventListener o) {
         enemyEventListenerList.add(o);
     }
 
     public void sendMessage(String msg, Object... args) {
-        for (Runnable a : listners.get(msg)) {
+        GameLog.d(msg);
+        if(!listeners.containsKey(msg))
+            return;
+        for (Runnable a : listeners.get(msg)) {
             a.run(args);
         }
     }
 
     public void sendMessage(String msg) {
-        for (Runnable a : listners.get(msg)) {
+        if(!listeners.containsKey(msg))
+            return;
+        for (Runnable a : listeners.get(msg)) {
             a.run();
         }
     }

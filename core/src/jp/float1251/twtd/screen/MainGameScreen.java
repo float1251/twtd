@@ -33,7 +33,6 @@ import jp.float1251.twtd.listener.IColliderListener;
 import jp.float1251.twtd.listener.IEnemyEventListener;
 import jp.float1251.twtd.ui.MainGameUi;
 import jp.float1251.twtd.ui.WaveLabel;
-import jp.float1251.twtd.util.GameUtils;
 
 /**
  * Created by takahiro iwatani on 2015/05/24.
@@ -44,14 +43,16 @@ public class MainGameScreen implements Screen {
     private final StageData stageData;
     private final MainGameUi ui;
     private final Engine engine;
-    private final SpriteBatch batch;
     private final PlayerData playerData;
     private final WaveLabel waveLabel;
+    private final WaveData[] datas;
+    private final GameNotify notify;
 
     private int waveNum = 1;
 
-    public MainGameScreen(final TWTD game) {
+    public MainGameScreen(final TWTD game, final WaveData[] datas) {
         this.game = game;
+        this.datas = datas;
         // TODO initの整理
         this.playerData = new PlayerData();
         OrthographicCamera camera = new OrthographicCamera();
@@ -61,93 +62,32 @@ public class MainGameScreen implements Screen {
         stageData = new StageData("stage/stage1.tmx");
         stageData.setView((OrthographicCamera) viewport.getCamera());
 
-        final GameNotify notify = new GameNotify();
-        notify.addListener("onWaveEnd", new GameNotify.Runnable() {
-            @Override
-            public void run(Object... args) {
-                // TODO next wave
-                // TODO stage clear判定
-                // TODO Promise化
-                waveNum++;
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        waveLabel.setText("Wave: " + waveNum);
-                        waveLabel.show(new Runnable() {
-                            @Override
-                            public void run() {
-                                nextWave(waveNum);
-                            }
-                        });
-                    }
-                }, 2000);
+        notify = new GameNotify();
 
-            }
-        });
         this.engine = new Engine();
         ui = new MainGameUi(viewport, stageData, engine, playerData);
         waveLabel = new WaveLabel("Wave: 1");
         waveLabel.hide();
         ui.stage.addActor(waveLabel);
-        batch = (SpriteBatch) ui.stage.getBatch();
+        SpriteBatch batch = (SpriteBatch) ui.stage.getBatch();
         engine.addSystem(new RenderingSystem(batch));
-        String json = Gdx.files.internal("wave/wave_data.json").readString();
-        final WaveData data = GameUtils.createWaveData(json);
-        // engine.addSystem(new WaveSystem(stageData.getRespawnPosition(), data, notify));
-        waveLabel.show(new Runnable() {
-            @Override
-            public void run() {
-                engine.addSystem(new WaveSystem(stageData.getRespawnPosition(), data, notify));
-            }
-        });
         engine.addSystem(new EnemySystem(stageData.path, notify));
-        notify.addEnemyEventListner(new IEnemyEventListener() {
-            @Override
-            public void onDestroyEnemy(Entity e) {
-                playerData.coin += 10;
-            }
 
-            @Override
-            public void onReachEnd(Entity e) {
-                playerData.life -= 1;
-                if (playerData.life <= 0) {
-                    // TODO gameOver通知
-                    GameLog.d("GameOver");
-                }
-            }
-        });
         engine.addSystem(new UnitSystem());
         engine.addSystem(new MoveSystem());
         engine.addSystem(new BulletSystem());
         engine.addSystem(new EnemyLifeRenderingSystem(batch));
         engine.addSystem(new CollisionSystem(notify));
-        notify.addColliderListener(new IColliderListener() {
+
+        setListeners();
+
+        // startする
+        waveLabel.show(new Runnable() {
             @Override
-            public void onCollision(Entity e1, Entity e2) {
-                EnemyComponent ec1 = e1.getComponent(EnemyComponent.class);
-                EnemyComponent ec2 = e2.getComponent(EnemyComponent.class);
-                BulletComponent bc1 = e1.getComponent(BulletComponent.class);
-                BulletComponent bc2 = e2.getComponent(BulletComponent.class);
-
-                // ともに敵 or 弾の際は何もしない
-                if ((ec1 != null && ec2 != null) || (bc1 != null && bc2 != null)) {
-                    return;
-                }
-
-                if (ec1 != null) {
-                    ec1.life -= bc2.power;
-                    ec1.slow = bc2.slow;
-                    ec1.slowTime = bc2.slowTime;
-                    e2.getComponent(CircleColliderComponent.class).isRemove = true;
-                } else {
-                    ec2.life -= bc1.power;
-                    ec2.slow = bc1.slow;
-                    ec2.slowTime = bc1.slowTime;
-                    e1.getComponent(CircleColliderComponent.class).isRemove = true;
-                }
+            public void run() {
+                engine.addSystem(new WaveSystem(stageData.getRespawnPosition(), datas[waveNum - 1], notify));
             }
         });
-
     }
 
     @Override
@@ -159,6 +99,7 @@ public class MainGameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        SpriteBatch batch = (SpriteBatch) ui.stage.getBatch();
         stageData.render();
 
         batch.setProjectionMatrix(viewport.getCamera().combined);
@@ -189,12 +130,93 @@ public class MainGameScreen implements Screen {
 
     @Override
     public void dispose() {
+        ui.dispose();
     }
 
     private void nextWave(int waveNum) {
         WaveSystem system = engine.getSystem(WaveSystem.class);
-        String json = Gdx.files.internal("wave/wave_data.json").readString();
-        final WaveData data = GameUtils.createWaveData(json);
+        WaveData data = datas[waveNum - 1];
         system.setWaveData(data);
     }
+
+    private void setListeners() {
+        notify.addListener("onWaveEnd", new GameNotify.Runnable() {
+            @Override
+            public void run(Object... args) {
+                // TODO stage clear判定
+                waveNum++;
+                if (datas.length < waveNum) {
+                    notify.sendMessage("OnGameClear");
+                    return;
+                }
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        waveLabel.setText("Wave: " + waveNum);
+                        waveLabel.show(new Runnable() {
+                            @Override
+                            public void run() {
+                                nextWave(waveNum);
+                            }
+                        });
+                    }
+                }, 2000);
+
+            }
+        });
+        notify.addListener("onGameClear", new GameNotify.Runnable() {
+            @Override
+            public void run(Object... args) {
+                // TODO GameClear
+                // とりあえず、敵を動かすのをやめる
+                engine.removeSystem(engine.getSystem(EnemySystem.class));
+                engine.removeSystem(engine.getSystem(WaveSystem.class));
+                engine.removeSystem(engine.getSystem(MoveSystem.class));
+                engine.removeSystem(engine.getSystem(UnitSystem.class));
+                engine.removeSystem(engine.getSystem(BulletSystem.class));
+            }
+        });
+        notify.addEnemyEventListener(new IEnemyEventListener() {
+            @Override
+            public void onDestroyEnemy(Entity e) {
+                playerData.coin += 10;
+            }
+
+            @Override
+            public void onReachEnd(Entity e) {
+                playerData.life -= 1;
+                if (playerData.life <= 0) {
+                    // TODO gameOver通知
+                    GameLog.d("GameOver");
+                }
+            }
+        });
+        notify.addColliderListener(new IColliderListener() {
+            @Override
+            public void onCollision(Entity e1, Entity e2) {
+                EnemyComponent ec1 = e1.getComponent(EnemyComponent.class);
+                EnemyComponent ec2 = e2.getComponent(EnemyComponent.class);
+                BulletComponent bc1 = e1.getComponent(BulletComponent.class);
+                BulletComponent bc2 = e2.getComponent(BulletComponent.class);
+
+                // ともに敵 or 弾の際は何もしない
+                if ((ec1 != null && ec2 != null) || (bc1 != null && bc2 != null)) {
+                    return;
+                }
+
+                if (ec1 != null) {
+                    ec1.life -= bc2.power;
+                    ec1.slow = bc2.slow;
+                    ec1.slowTime = bc2.slowTime;
+                    e2.getComponent(CircleColliderComponent.class).isRemove = true;
+                } else {
+                    ec2.life -= bc1.power;
+                    ec2.slow = bc1.slow;
+                    ec2.slowTime = bc1.slowTime;
+                    e1.getComponent(CircleColliderComponent.class).isRemove = true;
+                }
+            }
+        });
+    }
+
 }

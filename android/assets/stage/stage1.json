@@ -1,7 +1,7 @@
 {
-  "wave_data": [
-    "wave_data.json",
-    "wave_data.json",
-    "wave_data.json"
+  "wave_json": [
+    "wave/wave_data.json",
+    "wave/wave_data.json",
+    "wave/wave_data.json"
   ]
 }

@@ -12,6 +12,8 @@ import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 
 import jp.float1251.twtd.TWTD;
+import jp.float1251.twtd.data.WaveData;
+import jp.float1251.twtd.util.GameUtils;
 
 /**
  * Created by takahiro iwatani on 2015/05/24.
@@ -34,12 +36,22 @@ public class MenuScreen implements Screen {
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MainGameScreen(game));
+                // waveDataを作成する
+                String json = Gdx.files.internal("stage/stage1.json").readString();
+                String[] paths = GameUtils.createStageWaveDataPathArray(json);
+                WaveData[] datas = new WaveData[paths.length];
+                int i = 0;
+                for (String path : paths) {
+                    json = Gdx.files.internal(path).readString();
+                    datas[i] = GameUtils.createWaveData(json);
+                    i++;
+                }
+                game.setScreen(new MainGameScreen(game, datas));
             }
         });
         table.add(button).size(200, 100).row();
         button = new VisTextButton("setting unit");
-        button.addListener(new ClickListener(){
+        button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
             }

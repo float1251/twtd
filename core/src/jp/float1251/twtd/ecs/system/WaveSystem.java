@@ -6,10 +6,6 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 import jp.float1251.twtd.data.EnemySpawnData;
 import jp.float1251.twtd.data.WaveData;

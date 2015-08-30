@@ -1,6 +1,8 @@
 package jp.float1251.twtd.util;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
@@ -110,5 +112,18 @@ public class GameUtils {
         uc.texture = "cell/cell_unit_4.png";
         list.add(uc);
         return list;
+    }
+
+    public static String[] createStageWaveDataPathArray(String text) {
+        JsonValue jsonValue = new JsonReader().parse(text);
+        int size = jsonValue.get("wave_json").size;
+        String[] res = new String[size];
+        JsonValue wave = jsonValue.get("wave_json");
+        for (int i = 0; i < size; i++) {
+            JsonValue jd = wave.get(i);
+            String jsonPath = jd.toString();
+            res[i] = jsonPath;
+        }
+        return res;
     }
 }
