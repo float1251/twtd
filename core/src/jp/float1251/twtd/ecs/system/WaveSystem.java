@@ -85,7 +85,7 @@ public class WaveSystem extends EntitySystem {
         EnemySpawnData ed = data.getDataList().get(index);
         if (ed.time <= time) {
             if (ed.deltaTime <= enemyDeltaTime) {
-                Entity enemy = EnemyManager.createEnemy(respawnPos, ed.life, ed.speed);
+                Entity enemy = EnemyManager.createEnemy(respawnPos, ed.life, ed.speed, ed.pathIndex);
                 engine.addEntity(enemy);
                 enemyDeltaTime = 0f;
                 total++;

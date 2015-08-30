@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 
 import jp.float1251.twtd.util.GameUtils;
 
@@ -21,7 +22,7 @@ public class StageData {
 
     private final MapLayer wallData;
     private final Vector2 respawnPosition;
-    public PolylineMapObject path;
+    public Array<PolylineMapObject> path;
     private OrthogonalTiledMapRenderer renderer;
 
     public StageData(String fileName) {
@@ -30,7 +31,7 @@ public class StageData {
         wallData = loader.getLayers().get("wall");
         MapProperties val = loader.getLayers().get("start_goal").getObjects().get("enemy").getProperties();
         respawnPosition = new Vector2(val.get("x", Float.class), val.get("y", Float.class));
-        path = loader.getLayers().get("path").getObjects().getByType(PolylineMapObject.class).get(0);
+        path = loader.getLayers().get("path").getObjects().getByType(PolylineMapObject.class);
     }
 
 

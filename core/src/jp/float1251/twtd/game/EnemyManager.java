@@ -34,11 +34,11 @@ public class EnemyManager {
         return enemy;
     }
 
-    public static Entity createEnemy(Vector2 pos, float life, float speed){
+    public static Entity createEnemy(Vector2 pos, float life, float speed,int pathIndex){
         Entity enemy = new Entity();
         enemy.add(new PositionComponent(pos));
         enemy.add(new VelocityComponent(speed));
-        enemy.add(new EnemyComponent(life));
+        enemy.add(new EnemyComponent(life, pathIndex));
         enemy.add(new RenderingComponent(img));
         enemy.add(new CircleColliderComponent(30f));
         return enemy;

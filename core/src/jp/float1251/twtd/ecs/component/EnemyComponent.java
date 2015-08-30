@@ -14,6 +14,7 @@ public class EnemyComponent extends Component {
     public float slowTime = 0;
 
     private float time;
+    public int pathIndex;
 
     public EnemyComponent() {
 
@@ -32,7 +33,8 @@ public class EnemyComponent extends Component {
         }
     }
 
-    public EnemyComponent(float life) {
+    public EnemyComponent(float life, int pathIndex) {
         this.life = life;
+        this.pathIndex = pathIndex;
     }
 }

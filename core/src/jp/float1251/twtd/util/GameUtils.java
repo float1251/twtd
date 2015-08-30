@@ -68,6 +68,7 @@ public class GameUtils {
             data.speed = jd.getFloat("speed", 0);
             data.deltaTime = jd.getFloat("delta_time", 0);
             data.total = jd.getInt("total", 0);
+            data.pathIndex = jd.getInt("path_index", 0);
             wd.addEnemySpawnData(data);
         }
         return wd;

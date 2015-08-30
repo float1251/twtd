@@ -25,4 +25,9 @@ public class EnemySpawnData {
      * 何体出現させるか
      */
     public int total;
+
+    /**
+     * path
+     */
+    public int pathIndex;
 }

@@ -42,6 +42,7 @@
   speed: , // 速度
   delta_time: , // 何秒ごとに
   total: // 何体出すか
+  path_index: // stagedataに設定しているpathのindex
 }
 
 [![Gyazo](https://i.gyazo.com/a232afd41b9b6ea056f77ec15edc9fc0.gif)](https://gyazo.com/a232afd41b9b6ea056f77ec15edc9fc0)

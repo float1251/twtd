@@ -100,7 +100,7 @@ public class MainGameScreen implements Screen {
                 engine.addSystem(new WaveSystem(stageData.getRespawnPosition(), data, notify));
             }
         });
-        engine.addSystem(new EnemySystem(stageData.path.getPolyline(), notify));
+        engine.addSystem(new EnemySystem(stageData.path, notify));
         notify.addEnemyEventListner(new IEnemyEventListener() {
             @Override
             public void onDestroyEnemy(Entity e) {
