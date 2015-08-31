@@ -29,4 +29,4 @@
   path_index: // stagedataに設定しているpathのindex
 }
 
-[![Gyazo](https://i.gyazo.com/a232afd41b9b6ea056f77ec15edc9fc0.gif)](https://gyazo.com/a232afd41b9b6ea056f77ec15edc9fc0)
+[![Gyazo](https://i.gyazo.com/de7cde6f69617f3d09edf3ca545e8d75.gif)](https://gyazo.com/de7cde6f69617f3d09edf3ca545e8d75)
