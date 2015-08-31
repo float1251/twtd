@@ -19,14 +19,16 @@
 - [ ] GameClearUIの作成
 
 # json仕様
+```json
 {
-  time: , // 出現時間
-  type: ,
-  life: , // HP
-  speed: , // 速度
-  delta_time: , // 何秒ごとに
-  total: // 何体出すか
-  path_index: // stagedataに設定しているpathのindex
+  "time": number, // 出現時間
+  "type": string,
+  "life": int, // HP
+  "speed": float, // 速度
+  "delta_time": float, // 何秒ごとに
+  "total": int,// 何体出すか
+  "path_index": int,// stagedataに設定しているpathのindex
 }
+```
 
 [![Gyazo](https://i.gyazo.com/de7cde6f69617f3d09edf3ca545e8d75.gif)](https://gyazo.com/de7cde6f69617f3d09edf3ca545e8d75)
