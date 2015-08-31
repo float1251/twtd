@@ -19,7 +19,7 @@
 - [ ] GameClearUIの作成
 
 # json仕様
-```json
+```javascript
 {
   "time": number, // 出現時間
   "type": string,
