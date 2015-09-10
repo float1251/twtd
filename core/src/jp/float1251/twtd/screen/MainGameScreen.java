@@ -26,6 +26,7 @@ import jp.float1251.twtd.ecs.component.CircleColliderComponent;
 import jp.float1251.twtd.ecs.component.EnemyComponent;
 import jp.float1251.twtd.ecs.system.BulletSystem;
 import jp.float1251.twtd.ecs.system.CollisionSystem;
+import jp.float1251.twtd.ecs.system.DebugRendererSystem;
 import jp.float1251.twtd.ecs.system.EnemyLifeRenderingSystem;
 import jp.float1251.twtd.ecs.system.EnemySystem;
 import jp.float1251.twtd.ecs.system.MoveSystem;
@@ -82,6 +83,7 @@ public class MainGameScreen implements Screen {
         engine.addSystem(new BulletSystem());
         engine.addSystem(new EnemyLifeRenderingSystem(batch));
         engine.addSystem(new CollisionSystem(notify));
+        engine.addSystem(new DebugRendererSystem(viewport.getCamera()));
 
         setListeners();
 
