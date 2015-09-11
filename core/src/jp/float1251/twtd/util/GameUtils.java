@@ -30,7 +30,7 @@ public class GameUtils {
      * @return
      */
     public static Vector2 worldToCellPosition(float x, float y) {
-        return new Vector2((int)x / 64, (int)y / 64);
+        return new Vector2((int) x / 64, (int) y / 64);
     }
 
 
@@ -97,11 +97,12 @@ public class GameUtils {
         uc.texture = "cell/cell_unit_2.png";
         list.add(uc);
         uc = new UnitComponent();
-        uc.power = 2;
+        uc.power = 1;
         uc.interval = 0.5f;
         uc.range = 300f;
         uc.speed = 3f;
         uc.cost = 30;
+        uc.type = UnitComponent.UnitType.RANGE_ATTACK;
         uc.texture = "cell/cell_unit_3.png";
         list.add(uc);
         uc = new UnitComponent();

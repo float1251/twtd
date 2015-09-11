@@ -5,10 +5,13 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 
+import jp.float1251.twtd.GameLog;
 import jp.float1251.twtd.ecs.component.CircleColliderComponent;
+import jp.float1251.twtd.ecs.component.EnemyComponent;
 import jp.float1251.twtd.listener.GameNotify;
 import jp.float1251.twtd.util.GameUtils;
 
@@ -53,6 +56,7 @@ public class CollisionSystem extends EntitySystem {
             }
             // 削除フラグが立っていたら削除する
             if (cc1.isRemove) {
+
                 engine.removeEntity(e);
             }
             start++;

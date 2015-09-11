@@ -16,7 +16,7 @@ import jp.float1251.twtd.ecs.component.VelocityComponent;
  */
 public class BulletFactory {
 
-    public static Entity createBullet(Vector2 pos, Vector2 dir, float power, float range, float speed, boolean slow, float slowTime) {
+    public static Entity createBullet(Vector2 pos, Vector2 dir, float power, float range, float speed, boolean slow, float slowTime, boolean rangeAttack) {
         Entity bullet = new Entity();
         bullet.add(new PositionComponent(pos));
         BulletComponent b = new BulletComponent();
@@ -25,6 +25,7 @@ public class BulletFactory {
         b.range = range;
         b.slow = slow;
         b.slowTime = slowTime;
+        b.isRemovedWhenHit = !rangeAttack;
         bullet.add(b);
         bullet.add(new RenderingComponent(AssetLoader.getInstance().get("bullet.png", Texture.class)));
         VelocityComponent vel = new VelocityComponent();

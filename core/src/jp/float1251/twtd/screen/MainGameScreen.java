@@ -201,6 +201,8 @@ public class MainGameScreen implements Screen {
             @Override
             public void onDestroyEnemy(Entity e) {
                 playerData.coin += 10;
+                // 音を鳴らす
+                Gdx.audio.newSound(Gdx.files.internal("audio/explosion.wav")).play(0.25f);
             }
 
             @Override
@@ -229,12 +231,14 @@ public class MainGameScreen implements Screen {
                     ec1.life -= bc2.power;
                     ec1.slow = bc2.slow;
                     ec1.slowTime = bc2.slowTime;
-                    e2.getComponent(CircleColliderComponent.class).isRemove = true;
+                    if (bc2.isRemovedWhenHit)
+                        e2.getComponent(CircleColliderComponent.class).isRemove = true;
                 } else {
                     ec2.life -= bc1.power;
                     ec2.slow = bc1.slow;
                     ec2.slowTime = bc1.slowTime;
-                    e1.getComponent(CircleColliderComponent.class).isRemove = true;
+                    if (bc1.isRemovedWhenHit)
+                        e1.getComponent(CircleColliderComponent.class).isRemove = true;
                 }
             }
         });

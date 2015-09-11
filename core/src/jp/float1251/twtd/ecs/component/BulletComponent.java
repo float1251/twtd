@@ -9,6 +9,10 @@ import com.badlogic.gdx.math.Vector2;
 public class BulletComponent extends Component {
 
     public Vector2 startPoint = new Vector2();
+    /**
+     * 射程範囲
+     * 範囲外になったら削除される.
+     */
     public float range;
     public float power = 2f;
 
@@ -18,4 +22,9 @@ public class BulletComponent extends Component {
     public boolean slow = false;
 
     public float slowTime = 0f;
+
+    /**
+     * ヒット時に取り除かれるか.
+     */
+    public boolean isRemovedWhenHit = true;
 }

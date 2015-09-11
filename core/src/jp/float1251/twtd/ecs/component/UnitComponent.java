@@ -46,7 +46,8 @@ public class UnitComponent extends Component {
 
     public enum UnitType {
         RIFLE,
-        SLOW
+        SLOW,
+        RANGE_ATTACK
     }
 
     private float time;
@@ -75,7 +76,7 @@ public class UnitComponent extends Component {
     public void shotIfNeeded(Engine engine, Vector2 pos, Vector2 dir) {
         if (time < interval)
             return;
-        engine.addEntity(BulletFactory.createBullet(pos, dir, power, range, speed, type == UnitType.SLOW, slowTime));
+        engine.addEntity(BulletFactory.createBullet(pos, dir, power, range, speed, type == UnitType.SLOW, slowTime, type == UnitType.RANGE_ATTACK));
         time = 0f;
     }
 }
