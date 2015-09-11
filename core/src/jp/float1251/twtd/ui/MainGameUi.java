@@ -62,6 +62,7 @@ public class MainGameUi implements Disposable {
                 Entity unit = UnitFactory.createUnit(selectedCell.getWorldPosition().add(32, 32), data);
                 engine.addEntity(unit);
                 unitSelectUI.hide();
+                Gdx.audio.newSound(Gdx.files.internal("audio/select.wav")).play(0.25f);
             }
         });
         unitSelectUI.hide();
