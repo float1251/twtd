@@ -97,10 +97,10 @@ public class GameUtils {
         uc.texture = "cell/cell_unit_2.png";
         list.add(uc);
         uc = new UnitComponent();
-        uc.power = 1;
-        uc.interval = 0.5f;
-        uc.range = 300f;
-        uc.speed = 3f;
+        uc.power = 0.1f;
+        uc.interval = 2.0f;
+        uc.range = 100f;
+        uc.speed = 1f;
         uc.cost = 30;
         uc.type = UnitComponent.UnitType.RANGE_ATTACK;
         uc.texture = "cell/cell_unit_3.png";

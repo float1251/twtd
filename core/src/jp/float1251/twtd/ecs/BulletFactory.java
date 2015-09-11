@@ -27,12 +27,15 @@ public class BulletFactory {
         b.slowTime = slowTime;
         b.isRemovedWhenHit = !rangeAttack;
         bullet.add(b);
-        bullet.add(new RenderingComponent(AssetLoader.getInstance().get("bullet.png", Texture.class)));
+        RenderingComponent rc = new RenderingComponent(AssetLoader.getInstance().get("bullet.png", Texture.class));
+        rc.width = 20 * 2;
+        rc.height = 20 * 2;
+        bullet.add(rc);
         VelocityComponent vel = new VelocityComponent();
         vel.speed = speed;
         vel.direction.set(dir);
         bullet.add(vel);
-        bullet.add(new CircleColliderComponent(20f));
+        bullet.add(new CircleColliderComponent(18f));
         return bullet;
     }
 }

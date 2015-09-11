@@ -32,11 +32,13 @@ public class RenderingSystem extends EntitySystem {
         ImmutableArray<Entity> entities = engine.getEntitiesFor(Family.all(PositionComponent.class,
                 RenderingComponent.class).get());
         Texture img;
+        RenderingComponent rc;
         for (Entity entity : entities) {
-            img = entity.getComponent(RenderingComponent.class).texture;
+            rc = entity.getComponent(RenderingComponent.class);
+            img = rc.texture;
             PositionComponent positionComponent = entity.getComponent(PositionComponent.class);
-            batch.draw(img, positionComponent.position.x - img.getWidth() / 2f,
-                    positionComponent.position.y - img.getHeight() / 2f);
+            batch.draw(img, positionComponent.position.x - rc.width / 2f,
+                    positionComponent.position.y - rc.height / 2f, rc.width, rc.height);
         }
         batch.end();
     }
